@@ -1,0 +1,481 @@
+{% extends "base.html" %}
+
+{% block title %}
+Nosotros | AUREUM
+{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+    .about-hero {
+        padding: 5rem 0 4rem;
+    }
+
+    .about-title {
+        font-size: clamp(3rem, 6vw, 5rem);
+        line-height: 1;
+    }
+
+    .about-card {
+        border-radius: 1rem;
+    }
+
+    .about-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    .section-copy {
+        max-width: 760px;
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<!-- ====================================================== -->
+<!-- HERO -->
+<!-- ====================================================== -->
+
+<section class="about-hero">
+
+    <div class="container">
+
+        <div class="row justify-content-center text-center">
+
+            <div class="col-lg-9">
+
+                <span class="badge bg-primary-subtle text-primary mb-3 px-3 py-2">
+                    TECNOLOGÍA PARA INSTITUCIONES FINANCIERAS
+                </span>
+
+                <h1 class="about-title fw-bold mb-4">
+                    Construimos una operación financiera
+                    <span class="text-primary">
+                        más clara y centralizada.
+                    </span>
+                </h1>
+
+                <p class="lead text-muted mx-auto section-copy mb-4">
+                    AUREUM es una plataforma diseñada para concentrar la gestión
+                    de socios, créditos, expedientes y procesos operativos
+                    de SOFOMES y otras instituciones financieras.
+                </p>
+
+                <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+
+                    <a
+                        href="/sofom/register/"
+                        class="btn btn-primary btn-lg px-4"
+                    >
+                        Solicitar acceso
+                    </a>
+
+                    <a
+                        href="/home/"
+                        class="btn btn-outline-secondary btn-lg px-4"
+                    >
+                        Volver al inicio
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ====================================================== -->
+<!-- PROBLEMA / PROPÓSITO -->
+<!-- ====================================================== -->
+
+<section class="py-5 bg-white border-top border-bottom">
+
+    <div class="container py-4">
+
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6">
+
+                <span class="text-primary fw-semibold small text-uppercase">
+                    Nuestro propósito
+                </span>
+
+                <h2 class="display-6 fw-bold mt-2 mb-4">
+                    Reducir la fragmentación de la operación financiera.
+                </h2>
+
+                <p class="text-muted">
+                    En muchas instituciones, la información de socios,
+                    créditos y documentos termina distribuida entre hojas
+                    de cálculo, archivos, correos y diferentes canales
+                    de comunicación.
+                </p>
+
+                <p class="text-muted mb-0">
+                    AUREUM busca concentrar esa información en una estructura
+                    común, facilitando el seguimiento de cada expediente,
+                    la consulta de operaciones y la trazabilidad de los
+                    procesos internos.
+                </p>
+
+            </div>
+
+
+            <div class="col-lg-6">
+
+                <div class="card border-0 shadow-sm about-card">
+
+                    <div class="card-body p-4 p-lg-5">
+
+                        <div class="d-flex gap-3 mb-4">
+
+                            <div class="about-number text-primary">
+                                01
+                            </div>
+
+                            <div>
+
+                                <h5 class="fw-bold">
+                                    Centralizar
+                                </h5>
+
+                                <p class="text-muted mb-0">
+                                    Mantener socios, créditos y documentos
+                                    relacionados dentro de una misma plataforma.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="d-flex gap-3 mb-4">
+
+                            <div class="about-number text-primary">
+                                02
+                            </div>
+
+                            <div>
+
+                                <h5 class="fw-bold">
+                                    Organizar
+                                </h5>
+
+                                <p class="text-muted mb-0">
+                                    Estructurar la información alrededor de
+                                    expedientes y operaciones financieras.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="d-flex gap-3">
+
+                            <div class="about-number text-primary">
+                                03
+                            </div>
+
+                            <div>
+
+                                <h5 class="fw-bold">
+                                    Dar seguimiento
+                                </h5>
+
+                                <p class="text-muted mb-0">
+                                    Consultar estados, condiciones y actividad
+                                    operativa desde un mismo entorno.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ====================================================== -->
+<!-- CAPACIDADES -->
+<!-- ====================================================== -->
+
+<section class="py-5">
+
+    <div class="container py-5">
+
+        <div class="text-center mb-5">
+
+            <span class="text-primary fw-semibold small text-uppercase">
+                Plataforma operativa
+            </span>
+
+            <h2 class="fw-bold mt-2 mb-3">
+                Una estructura para gestionar la institución.
+            </h2>
+
+            <p class="text-muted mx-auto section-copy">
+                AUREUM reúne los componentes principales de la operación
+                financiera en módulos conectados entre sí.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            <!-- SOCIOS -->
+            <div class="col-md-6 col-xl-3">
+
+                <div class="card border-0 shadow-sm about-card h-100">
+
+                    <div class="card-body p-4">
+
+                        <h5 class="fw-bold mb-3">
+                            Socios
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Registro de personas físicas y morales,
+                            información fiscal, contacto, documentación
+                            y expediente individual.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CRÉDITOS -->
+            <div class="col-md-6 col-xl-3">
+
+                <div class="card border-0 shadow-sm about-card h-100">
+
+                    <div class="card-body p-4">
+
+                        <h5 class="fw-bold mb-3">
+                            Créditos
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Administración de solicitudes, condiciones,
+                            estados, asignaciones y documentación de
+                            cada operación.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DOCUMENTOS -->
+            <div class="col-md-6 col-xl-3">
+
+                <div class="card border-0 shadow-sm about-card h-100">
+
+                    <div class="card-body p-4">
+
+                        <h5 class="fw-bold mb-3">
+                            Expedientes
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Centralización de identificaciones,
+                            comprobantes, contratos y otros documentos
+                            asociados al socio o crédito.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTROL -->
+            <div class="col-md-6 col-xl-3">
+
+                <div class="card border-0 shadow-sm about-card h-100">
+
+                    <div class="card-body p-4">
+
+                        <h5 class="fw-bold mb-3">
+                            Control operativo
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Dashboards e indicadores para consultar
+                            socios, cartera y estado general de
+                            la operación.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ====================================================== -->
+<!-- VISIÓN -->
+<!-- ====================================================== -->
+
+<section class="py-5 bg-white border-top">
+
+    <div class="container py-4">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-9">
+
+                <div class="text-center">
+
+                    <span class="text-primary fw-semibold small text-uppercase">
+                        Evolución
+                    </span>
+
+                    <h2 class="fw-bold mt-2 mb-3">
+                        Una plataforma diseñada para crecer con la operación.
+                    </h2>
+
+                    <p class="lead text-muted mb-0">
+                        AUREUM está concebido como una plataforma modular.
+                        Su arquitectura permite incorporar nuevos procesos,
+                        productos financieros y herramientas operativas
+                        conforme evolucionen las necesidades de cada institución.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ====================================================== -->
+<!-- DESARROLLO -->
+<!-- ====================================================== -->
+
+<section class="py-5">
+
+    <div class="container py-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <div class="card border-0 shadow-lg rounded-4">
+
+                    <div class="card-body p-4 p-lg-5 text-center">
+
+                        <small class="text-primary text-uppercase fw-semibold">
+                            Desarrollo
+                        </small>
+
+                        <h2 class="fw-bold mt-2 mb-3">
+                            SOSANET IT Consulting & Services
+                        </h2>
+
+                        <p class="text-muted mx-auto mb-4"
+                           style="max-width: 650px;">
+                            AUREUM es desarrollado por SOSANET IT Consulting
+                            & Services, empresa enfocada en soluciones
+                            tecnológicas, infraestructura, servicios de TI
+                            y desarrollo de software.
+                        </p>
+
+                        <a
+                            href="https://www.sosanet.com.mx/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="btn btn-outline-primary px-4"
+                        >
+                            Conocer SOSANET
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ====================================================== -->
+<!-- CTA -->
+<!-- ====================================================== -->
+
+<section class="pb-5">
+
+    <div class="container pb-5">
+
+        <div class="bg-dark text-white rounded-4 p-4 p-lg-5 text-center">
+
+            <h2 class="fw-bold mb-3">
+                Lleva la operación financiera a un solo lugar.
+            </h2>
+
+            <p class="text-white-50 mx-auto mb-4"
+               style="max-width: 650px;">
+                Conoce AUREUM y comienza a estructurar socios,
+                créditos y expedientes desde una plataforma centralizada.
+            </p>
+
+            <a
+                href="/sofom/register/"
+                class="btn btn-primary btn-lg px-4"
+            >
+                Solicitar acceso
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

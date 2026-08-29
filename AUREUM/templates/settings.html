@@ -1,0 +1,578 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Configuración | AUREUM
+{% endblock %}
+
+{% block content %}
+
+<!-- ENCABEZADO -->
+<div class="mb-4">
+
+    <h2 class="fw-bold mb-1">
+        Configuración
+    </h2>
+
+    <p class="text-muted mb-0">
+        Administra tu cuenta y la configuración de tu institución.
+    </p>
+
+</div>
+
+
+{% if messages %}
+
+    {% for message in messages %}
+
+        <div
+            class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show"
+            role="alert"
+        >
+
+            {{ message }}
+
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Cerrar"
+            ></button>
+
+        </div>
+
+    {% endfor %}
+
+{% endif %}
+
+
+<div class="row g-4">
+
+
+    <!-- ================================================== -->
+    <!-- CUENTA -->
+    <!-- ================================================== -->
+
+    <div class="col-lg-8">
+
+        <div class="card border-0 shadow-sm mb-4">
+
+            <div class="card-body p-4">
+
+                <div class="mb-4">
+
+                    <h5 class="fw-bold mb-1">
+                        Datos de la cuenta
+                    </h5>
+
+                    <p class="text-muted small mb-0">
+                        Información personal asociada a tu usuario.
+                    </p>
+
+                </div>
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <input
+                        type="hidden"
+                        name="action"
+                        value="update_profile"
+                    >
+
+
+                    <div class="row g-3">
+
+
+                        <!-- NOMBRE -->
+                        <div class="col-md-6">
+
+                            <label
+                                for="first_name"
+                                class="form-label fw-semibold"
+                            >
+                                Nombre
+                            </label>
+
+                            <input
+                                type="text"
+                                id="first_name"
+                                name="first_name"
+                                class="form-control"
+                                value="{{ request.user.first_name }}"
+                                autocomplete="given-name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- APELLIDO -->
+                        <div class="col-md-6">
+
+                            <label
+                                for="last_name"
+                                class="form-label fw-semibold"
+                            >
+                                Apellido
+                            </label>
+
+                            <input
+                                type="text"
+                                id="last_name"
+                                name="last_name"
+                                class="form-control"
+                                value="{{ request.user.last_name }}"
+                                autocomplete="family-name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- EMAIL -->
+                        <div class="col-md-6">
+
+                            <label
+                                for="email"
+                                class="form-label fw-semibold"
+                            >
+                                Correo electrónico
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="form-control"
+                                value="{{ request.user.email }}"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- TELÉFONO -->
+                        <div class="col-md-6">
+
+                            <label
+                                for="phone"
+                                class="form-label fw-semibold"
+                            >
+                                Teléfono
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                class="form-control"
+                                value="{{ request.user.phone }}"
+                                autocomplete="tel"
+                            >
+
+                        </div>
+
+
+                        <!-- USUARIO -->
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+                                Usuario
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control bg-light"
+                                value="{{ request.user.username }}"
+                                disabled
+                            >
+
+                        </div>
+
+
+                        <!-- ROL -->
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+                                Rol
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control bg-light"
+                                value="{{ request.user.get_role_display }}"
+                                disabled
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex justify-content-end mt-4">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary px-4"
+                        >
+                            Guardar cambios
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================== -->
+        <!-- SOFOM: SOLO ADMIN -->
+        <!-- ================================================== -->
+
+        {% if request.user.role == "SOFOM_ADMIN" %}
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex flex-column flex-md-row justify-content-between gap-2 mb-4">
+
+                        <div>
+
+                            <h5 class="fw-bold mb-1">
+                                Configuración de la SOFOM
+                            </h5>
+
+                            <p class="text-muted small mb-0">
+                                Información general de la institución.
+                            </p>
+
+                        </div>
+
+                        <span class="badge bg-primary-subtle text-primary align-self-start">
+                            Administrador
+                        </span>
+
+                    </div>
+
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <input
+                            type="hidden"
+                            name="action"
+                            value="update_sofom"
+                        >
+
+
+                        <div class="row g-3">
+
+
+                            <!-- RAZÓN SOCIAL -->
+                            <div class="col-md-6">
+
+                                <label
+                                    for="legal_name"
+                                    class="form-label fw-semibold"
+                                >
+                                    Razón social
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="legal_name"
+                                    name="legal_name"
+                                    class="form-control"
+                                    value="{{ request.user.sofom.legal_name }}"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- NOMBRE COMERCIAL -->
+                            <div class="col-md-6">
+
+                                <label
+                                    for="trade_name"
+                                    class="form-label fw-semibold"
+                                >
+                                    Nombre comercial
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="trade_name"
+                                    name="trade_name"
+                                    class="form-control"
+                                    value="{{ request.user.sofom.trade_name }}"
+                                >
+
+                            </div>
+
+
+                            <!-- RFC -->
+                            <div class="col-md-6">
+
+                                <label
+                                    for="sofom_rfc"
+                                    class="form-label fw-semibold"
+                                >
+                                    RFC
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="sofom_rfc"
+                                    name="rfc"
+                                    class="form-control text-uppercase"
+                                    maxlength="13"
+                                    value="{{ request.user.sofom.rfc }}"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- TELÉFONO -->
+                            <div class="col-md-6">
+
+                                <label
+                                    for="sofom_phone"
+                                    class="form-label fw-semibold"
+                                >
+                                    Teléfono
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="sofom_phone"
+                                    name="phone"
+                                    class="form-control"
+                                    value="{{ request.user.sofom.phone }}"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- EMAIL -->
+                            <div class="col-md-6">
+
+                                <label
+                                    for="sofom_email"
+                                    class="form-label fw-semibold"
+                                >
+                                    Correo institucional
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="sofom_email"
+                                    name="email"
+                                    class="form-control"
+                                    value="{{ request.user.sofom.email }}"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- RÉGIMEN -->
+                            <div class="col-md-6">
+
+                                <label
+                                    for="tax_regime"
+                                    class="form-label fw-semibold"
+                                >
+                                    Régimen fiscal
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="tax_regime"
+                                    name="tax_regime"
+                                    class="form-control"
+                                    value="{{ request.user.sofom.tax_regime }}"
+                                >
+
+                            </div>
+
+
+                            <!-- REPRESENTANTE -->
+                            <div class="col-12">
+
+                                <label
+                                    for="legal_representative_name"
+                                    class="form-label fw-semibold"
+                                >
+                                    Representante legal
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="legal_representative_name"
+                                    name="legal_representative_name"
+                                    class="form-control"
+                                    value="{{ request.user.sofom.legal_representative_name }}"
+                                >
+
+                            </div>
+
+
+                            <!-- DIRECCIÓN -->
+                            <div class="col-12">
+
+                                <label
+                                    for="fiscal_address"
+                                    class="form-label fw-semibold"
+                                >
+                                    Domicilio fiscal
+                                </label>
+
+                                <textarea
+                                    id="fiscal_address"
+                                    name="fiscal_address"
+                                    class="form-control"
+                                    rows="3"
+                                    required
+                                >{{ request.user.sofom.fiscal_address }}</textarea>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="d-flex justify-content-end mt-4">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary px-4"
+                            >
+                                Guardar configuración
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+
+    <!-- ================================================== -->
+    <!-- PANEL LATERAL -->
+    <!-- ================================================== -->
+
+    <div class="col-lg-4">
+
+
+        <!-- INSTITUCIÓN -->
+        <div class="card border-0 shadow-sm mb-4">
+
+            <div class="card-body p-4">
+
+                <small class="text-muted d-block">
+                    Institución
+                </small>
+
+                <h5 class="fw-bold mt-1 mb-1">
+                    {{ request.user.sofom.trade_name|default:request.user.sofom.legal_name }}
+                </h5>
+
+                <small class="text-muted">
+                    {{ request.user.sofom.rfc }}
+                </small>
+
+
+                <hr>
+
+
+                <small class="text-muted d-block">
+                    Estado
+                </small>
+
+                {% if request.user.sofom.status == "APPROVED" %}
+
+                    <span class="badge bg-success mt-1">
+                        Aprobada
+                    </span>
+
+                {% elif request.user.sofom.status == "REVIEWING" %}
+
+                    <span class="badge bg-warning text-dark mt-1">
+                        En revisión
+                    </span>
+
+                {% elif request.user.sofom.status == "REJECTED" %}
+
+                    <span class="badge bg-danger mt-1">
+                        Rechazada
+                    </span>
+
+                {% else %}
+
+                    <span class="badge bg-secondary mt-1">
+                        Sin revisión
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- SESIÓN -->
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body p-4">
+
+                <h5 class="fw-bold mb-1">
+                    Sesión
+                </h5>
+
+                <p class="text-muted small mb-3">
+                    Finaliza de forma segura tu sesión actual.
+                </p>
+
+
+                <form
+                    method="POST"
+                    action="{% url 'logout' %}"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-outline-danger w-100"
+                    >
+                        Cerrar sesión
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

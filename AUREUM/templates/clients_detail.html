@@ -1,0 +1,1176 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+{{ client.name }} | AUREUM
+{% endblock %}
+
+{% block content %}
+
+
+<!-- ====================================================== -->
+<!-- ENCABEZADO -->
+<!-- ====================================================== -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <a
+            href="/monarca/clients/"
+            class="text-decoration-none small text-muted"
+        >
+            ← Volver a socios
+        </a>
+
+
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-2 mb-1">
+
+            <h2 class="fw-bold mb-0">
+                {{ client.name }}
+            </h2>
+
+
+            {% if client.matricula %}
+
+                <span class="badge bg-light text-dark border">
+                    {{ client.matricula }}
+                </span>
+
+            {% endif %}
+
+
+            {% if client.person_type == "INDIVIDUAL" %}
+
+                <span class="badge bg-primary-subtle text-primary">
+                    Persona física
+                </span>
+
+            {% elif client.person_type == "COMPANY" %}
+
+                <span class="badge bg-secondary-subtle text-secondary">
+                    Persona moral
+                </span>
+
+            {% endif %}
+
+
+            {% if client.is_active %}
+
+                <span class="badge bg-success-subtle text-success">
+                    Activo
+                </span>
+
+            {% else %}
+
+                <span class="badge bg-light text-secondary border">
+                    Inactivo
+                </span>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="text-muted">
+
+            {% if client.email %}
+                {{ client.email }}
+            {% endif %}
+
+            {% if client.email and client.phone %}
+                ·
+            {% endif %}
+
+            {% if client.phone %}
+                {{ client.phone }}
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ACCIONES -->
+    <div class="d-flex flex-wrap gap-2">
+
+        <a
+            href="{% url 'clients_new_credit' client.matricula %}"
+            class="btn btn-primary"
+        >
+            + Nuevo crédito
+        </a>
+
+        {% if savings_account %}
+
+            <a
+                href="#savings"
+                class="btn btn-outline-success"
+                data-bs-toggle="tab"
+                data-bs-target="#savings"
+            >
+                Ver ahorro
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- INDICADORES -->
+<!-- ====================================================== -->
+
+<div class="row g-3 mb-4">
+
+
+    <!-- MATRÍCULA -->
+    <div class="col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Matrícula
+                </small>
+
+                <h5 class="fw-bold mb-0 mt-1">
+                    {{ client.matricula|default:"Pendiente" }}
+                </h5>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CRÉDITOS -->
+    <div class="col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Créditos
+                </small>
+
+                <h3 class="fw-bold mb-0 mt-1">
+                    {{ client.credits.count }}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- AHORRO -->
+    <div class="col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Saldo en ahorro
+                </small>
+
+                {% if savings_account %}
+
+                    <h3 class="fw-bold text-success mb-0 mt-1">
+                        ${{ savings_account.balance|floatformat:2 }}
+                    </h3>
+
+                {% else %}
+
+                    <h5 class="text-muted mb-0 mt-1">
+                        Sin cuenta
+                    </h5>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- DOCUMENTOS -->
+    <div class="col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Documentos
+                </small>
+
+                <h3 class="fw-bold mb-0 mt-1">
+                    {{ client.documents.count }}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- PESTAÑAS -->
+<!-- ====================================================== -->
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-header bg-white border-bottom pt-3">
+
+        <ul class="nav nav-tabs card-header-tabs">
+
+            <li class="nav-item">
+
+                <button
+                    class="nav-link active"
+                    data-bs-toggle="tab"
+                    data-bs-target="#summary"
+                    type="button"
+                >
+                    Resumen
+                </button>
+
+            </li>
+
+
+            <li class="nav-item">
+
+                <button
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#credits"
+                    type="button"
+                >
+                    Créditos
+                </button>
+
+            </li>
+
+
+            <li class="nav-item">
+
+                <button
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#savings"
+                    type="button"
+                >
+                    Ahorro
+                </button>
+
+            </li>
+
+
+            <li class="nav-item">
+
+                <button
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#documents"
+                    type="button"
+                >
+                    Documentos
+                </button>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <div class="card-body p-4">
+
+        <div class="tab-content">
+
+
+            <!-- ================================================== -->
+            <!-- RESUMEN -->
+            <!-- ================================================== -->
+
+            <div
+                class="tab-pane fade show active"
+                id="summary"
+            >
+
+                <div class="row g-4">
+
+
+                    <!-- IDENTIFICADORES -->
+                    <div class="col-lg-6">
+
+                        <h5 class="fw-bold mb-4">
+                            Identificación
+                        </h5>
+
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+
+                                <small class="text-muted d-block">
+                                    Matrícula
+                                </small>
+
+                                <span class="fw-semibold">
+                                    {{ client.matricula|default:"Pendiente" }}
+                                </span>
+
+                            </div>
+
+
+                            {% if client.registration_number %}
+
+                                <div class="col-md-6">
+
+                                    <small class="text-muted d-block">
+                                        Número de registro
+                                    </small>
+
+                                    <span>
+                                        {{ client.registration_number }}
+                                    </span>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <div class="col-md-6">
+
+                                <small class="text-muted d-block">
+                                    RFC
+                                </small>
+
+                                <span class="fw-semibold">
+                                    {{ client.rfc }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <small class="text-muted d-block">
+                                    Tipo de persona
+                                </small>
+
+                                <span>
+                                    {{ client.get_person_type_display }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PERSONA -->
+                    <div class="col-lg-6">
+
+                        <h5 class="fw-bold mb-4">
+                            Datos generales
+                        </h5>
+
+
+                        <div class="row g-3">
+
+
+                            {% if client.person_type == "INDIVIDUAL" %}
+
+                                <div class="col-md-6">
+
+                                    <small class="text-muted d-block">
+                                        Nombre
+                                    </small>
+
+                                    <span class="fw-semibold">
+                                        {{ client.first_name|default:"No registrado" }}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <small class="text-muted d-block">
+                                        Apellido paterno
+                                    </small>
+
+                                    <span>
+                                        {{ client.paternal_surname|default:"No registrado" }}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <small class="text-muted d-block">
+                                        Apellido materno
+                                    </small>
+
+                                    <span>
+                                        {{ client.maternal_surname|default:"No registrado" }}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <small class="text-muted d-block">
+                                        Fecha de nacimiento
+                                    </small>
+
+                                    {% if client.birth_date %}
+                                        {{ client.birth_date|date:"d/m/Y" }}
+                                    {% else %}
+                                        <span class="text-muted">No registrada</span>
+                                    {% endif %}
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <small class="text-muted d-block">
+                                        CURP
+                                    </small>
+
+                                    <span>
+                                        {{ client.curp|default:"No registrada" }}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <small class="text-muted d-block">
+                                        Ocupación
+                                    </small>
+
+                                    <span>
+                                        {{ client.occupation|default:"No registrada" }}
+                                    </span>
+
+                                </div>
+
+
+                            {% else %}
+
+                                <div class="col-md-8">
+
+                                    <small class="text-muted d-block">
+                                        Razón social
+                                    </small>
+
+                                    <span class="fw-semibold">
+                                        {{ client.business_name|default:"No registrada" }}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+                                    <small class="text-muted d-block">
+                                        Constitución
+                                    </small>
+
+                                    {% if client.constitution_date %}
+                                        {{ client.constitution_date|date:"d/m/Y" }}
+                                    {% else %}
+                                        <span class="text-muted">No registrada</span>
+                                    {% endif %}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="col-12">
+
+                        <hr>
+
+                    </div>
+
+
+
+                    <!-- CONTACTO -->
+                    <div class="col-lg-6">
+
+                        <h5 class="fw-bold mb-4">
+                            Contacto
+                        </h5>
+
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+
+                                <small class="text-muted d-block">
+                                    Correo
+                                </small>
+
+                                {% if client.email %}
+
+                                    <a
+                                        href="mailto:{{ client.email }}"
+                                        class="text-decoration-none"
+                                    >
+                                        {{ client.email }}
+                                    </a>
+
+                                {% else %}
+
+                                    <span class="text-muted">
+                                        No registrado
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <small class="text-muted d-block">
+                                    Teléfono
+                                </small>
+
+                                {% if client.phone %}
+
+                                    <a
+                                        href="tel:{{ client.phone }}"
+                                        class="text-decoration-none"
+                                    >
+                                        {{ client.phone }}
+                                    </a>
+
+                                {% else %}
+
+                                    <span class="text-muted">
+                                        No registrado
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="col-12">
+
+                                <small class="text-muted d-block">
+                                    Dirección
+                                </small>
+
+                                <span>
+                                    {{ client.address|default:"No registrada" }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ECONÓMICO -->
+                    <div class="col-lg-6">
+
+                        <h5 class="fw-bold mb-4">
+                            Perfil económico
+                        </h5>
+
+
+                        <small class="text-muted d-block">
+                            Ingreso mensual
+                        </small>
+
+                        {% if client.monthly_income %}
+
+                            <h4 class="fw-bold mb-0">
+                                ${{ client.monthly_income|floatformat:2 }}
+                            </h4>
+
+                        {% else %}
+
+                            <span class="text-muted">
+                                No registrado
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================================================== -->
+            <!-- CRÉDITOS -->
+            <!-- ================================================== -->
+
+            <div
+                class="tab-pane fade"
+                id="credits"
+            >
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+
+                    <div>
+
+                        <h5 class="fw-bold mb-0">
+                            Créditos
+                        </h5>
+
+                        <small class="text-muted">
+                            Solicitudes y operaciones asociadas al socio.
+                        </small>
+
+                    </div>
+
+
+                    <a
+                        href="{% url 'clients_new_credit' client.matricula %}"
+                        class="btn btn-sm btn-primary"
+                    >
+                        + Nuevo crédito
+                    </a>
+
+                </div>
+
+
+                {% if client.credits.all %}
+
+                    <div class="row g-3">
+
+                        {% for credit in client.credits.all %}
+
+                            <div class="col-lg-6">
+
+                                <a
+                                    href="{% url 'credit_detail' credit.id %}"
+                                    class="text-decoration-none text-dark"
+                                >
+
+                                    <div class="card border h-100">
+
+                                        <div class="card-body">
+
+                                            <div class="d-flex justify-content-between align-items-start mb-3">
+
+                                                <div>
+
+                                                    <h6 class="fw-bold mb-1">
+                                                        {{ credit.name|default:"Crédito" }}
+                                                    </h6>
+
+                                                    <small class="text-muted">
+                                                        {{ credit.created_at|date:"d/m/Y" }}
+                                                    </small>
+
+                                                </div>
+
+
+                                                {% if credit.status == "REVIEW" %}
+
+                                                    <span class="badge bg-warning text-dark">
+                                                        En revisión
+                                                    </span>
+
+                                                {% elif credit.status == "APPROVED" %}
+
+                                                    <span class="badge bg-success">
+                                                        Aprobado
+                                                    </span>
+
+                                                {% elif credit.status == "ACTIVE" %}
+
+                                                    <span class="badge bg-primary">
+                                                        Activo
+                                                    </span>
+
+                                                {% elif credit.status == "PAID" %}
+
+                                                    <span class="badge bg-secondary">
+                                                        Pagado
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </div>
+
+
+                                            <div class="row g-3">
+
+                                                <div class="col-6">
+
+                                                    <small class="text-muted d-block">
+                                                        Solicitado
+                                                    </small>
+
+                                                    <span class="fw-semibold">
+                                                        ${{ credit.amount_requested|floatformat:2 }}
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div class="col-6">
+
+                                                    <small class="text-muted d-block">
+                                                        Aprobado
+                                                    </small>
+
+                                                    {% if credit.approved_amount %}
+
+                                                        <span class="fw-semibold text-success">
+                                                            ${{ credit.approved_amount|floatformat:2 }}
+                                                        </span>
+
+                                                    {% else %}
+
+                                                        <span class="text-muted">
+                                                            —
+                                                        </span>
+
+                                                    {% endif %}
+
+                                                </div>
+
+
+                                                <div class="col-6">
+
+                                                    <small class="text-muted d-block">
+                                                        Frecuencia
+                                                    </small>
+
+                                                    {{ credit.get_payment_frequency_display }}
+
+                                                </div>
+
+
+                                                <div class="col-6">
+
+                                                    <small class="text-muted d-block">
+                                                        Plazo
+                                                    </small>
+
+                                                    {% if credit.term_months %}
+                                                        {{ credit.term_months }} meses
+                                                    {% else %}
+                                                        <span class="text-muted">—</span>
+                                                    {% endif %}
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </a>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                {% else %}
+
+                    <div class="text-center py-5">
+
+                        <h6 class="fw-semibold">
+                            Sin créditos registrados
+                        </h6>
+
+                        <p class="text-muted small">
+                            Este socio aún no tiene operaciones de crédito.
+                        </p>
+
+                        <a
+                            href="{% url 'clients_new_credit' client.matricula %}"
+                            class="btn btn-sm btn-primary"
+                        >
+                            Crear primera solicitud
+                        </a>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <!-- ================================================== -->
+            <!-- AHORRO -->
+            <!-- ================================================== -->
+
+            <div
+                class="tab-pane fade"
+                id="savings"
+            >
+
+                {% if savings_account %}
+
+
+                    <!-- RESUMEN DE CUENTA -->
+                    <div class="row g-3 mb-4">
+
+                        <div class="col-md-4">
+
+                            <div class="border rounded-3 p-3 h-100">
+
+                                <small class="text-muted d-block">
+                                    Número de cuenta
+                                </small>
+
+                                <h5 class="fw-bold mb-0 mt-1">
+                                    {{ savings_account.account_number }}
+                                </h5>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+
+                            <div class="border rounded-3 p-3 h-100">
+
+                                <small class="text-muted d-block">
+                                    Saldo disponible
+                                </small>
+
+                                <h3 class="fw-bold text-success mb-0 mt-1">
+                                    ${{ savings_account.balance|floatformat:2 }}
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+
+                            <div class="border rounded-3 p-3 h-100">
+
+                                <small class="text-muted d-block">
+                                    Estado
+                                </small>
+
+                                <div class="mt-2">
+
+                                    {% if savings_account.status == "ACTIVE" %}
+
+                                        <span class="badge bg-success">
+                                            Activa
+                                        </span>
+
+                                    {% elif savings_account.status == "FROZEN" %}
+
+                                        <span class="badge bg-warning text-dark">
+                                            Bloqueada
+                                        </span>
+
+                                    {% elif savings_account.status == "CLOSED" %}
+
+                                        <span class="badge bg-secondary">
+                                            Cerrada
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- MOVIMIENTOS -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                        <div>
+
+                            <h5 class="fw-bold mb-0">
+                                Movimientos recientes
+                            </h5>
+
+                            <small class="text-muted">
+                                Historial de operaciones de ahorro.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    {% if savings_transactions %}
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover align-middle">
+
+                                <thead class="table-light">
+
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Tipo</th>
+                                        <th>Descripción</th>
+                                        <th>Referencia</th>
+                                        <th class="text-end">Monto</th>
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                    {% for transaction in savings_transactions %}
+
+                                        <tr>
+
+                                            <td class="text-muted text-nowrap">
+                                                {{ transaction.created_at|date:"d/m/Y H:i" }}
+                                            </td>
+
+
+                                            <td>
+
+                                                {% if transaction.transaction_type == "DEPOSIT" %}
+
+                                                    <span class="badge bg-success-subtle text-success">
+                                                        Depósito
+                                                    </span>
+
+                                                {% elif transaction.transaction_type == "WITHDRAWAL" %}
+
+                                                    <span class="badge bg-danger-subtle text-danger">
+                                                        Retiro
+                                                    </span>
+
+                                                {% elif transaction.transaction_type == "INTEREST" %}
+
+                                                    <span class="badge bg-primary-subtle text-primary">
+                                                        Interés
+                                                    </span>
+
+                                                {% else %}
+
+                                                    <span class="badge bg-secondary-subtle text-secondary">
+                                                        Ajuste
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </td>
+
+
+                                            <td>
+                                                {{ transaction.description|default:"—" }}
+                                            </td>
+
+
+                                            <td class="text-muted">
+                                                {{ transaction.reference|default:"—" }}
+                                            </td>
+
+
+                                            <td class="text-end fw-semibold">
+
+                                                {% if transaction.transaction_type == "WITHDRAWAL" %}
+
+                                                    <span class="text-danger">
+                                                        -${{ transaction.amount|floatformat:2 }}
+                                                    </span>
+
+                                                {% else %}
+
+                                                    <span class="text-success">
+                                                        +${{ transaction.amount|floatformat:2 }}
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </td>
+
+                                        </tr>
+
+                                    {% endfor %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+                    {% else %}
+
+                        <div class="text-center py-4">
+
+                            <h6 class="fw-semibold">
+                                Sin movimientos
+                            </h6>
+
+                            <p class="text-muted small mb-0">
+                                Esta cuenta todavía no tiene operaciones registradas.
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+
+                {% else %}
+
+                    <div class="text-center py-5">
+
+                        <h5 class="fw-semibold mb-2">
+                            Sin cuenta de ahorro
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Este socio todavía no tiene una cuenta de ahorro registrada.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <!-- ================================================== -->
+            <!-- DOCUMENTOS -->
+            <!-- ================================================== -->
+
+            <div
+                class="tab-pane fade"
+                id="documents"
+            >
+
+                <div class="mb-4">
+
+                    <h5 class="fw-bold mb-0">
+                        Expediente documental
+                    </h5>
+
+                    <small class="text-muted">
+                        Documentos asociados al socio.
+                    </small>
+
+                </div>
+
+
+                {% if client.documents.all %}
+
+                    <div class="row g-3">
+
+                        {% for doc in client.documents.all %}
+
+                            <div class="col-md-6 col-lg-4">
+
+                                <div class="border rounded-3 p-3 h-100">
+
+                                    <div class="fw-semibold mb-1">
+                                        {{ doc.get_document_type_display }}
+                                    </div>
+
+
+                                    {% if doc.created_at %}
+
+                                        <small class="text-muted d-block mb-3">
+                                            {{ doc.created_at|date:"d/m/Y" }}
+                                        </small>
+
+                                    {% endif %}
+
+
+                                    {% if doc.file %}
+
+                                        <a
+                                            href="{{ doc.file.url }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="btn btn-sm btn-outline-primary w-100"
+                                        >
+                                            Ver documento
+                                        </a>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                {% else %}
+
+                    <div class="text-center py-5">
+
+                        <h6 class="fw-semibold">
+                            Sin documentos
+                        </h6>
+
+                        <p class="text-muted small mb-0">
+                            No hay documentos registrados en este expediente.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

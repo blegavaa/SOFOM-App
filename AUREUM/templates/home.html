@@ -1,0 +1,645 @@
+{% extends "base.html" %}
+
+{% block title %}
+AUREUM | Gestión para instituciones financieras
+{% endblock %}
+
+{% block meta_description %}
+{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+    .hero-section {
+        min-height: 78vh;
+        display: flex;
+        align-items: center;
+    }
+
+    .hero-badge {
+        letter-spacing: .04em;
+    }
+
+    .hero-title {
+        font-size: clamp(3rem, 7vw, 5.5rem);
+        line-height: .95;
+    }
+
+    .hero-text {
+        max-width: 720px;
+        font-size: 1.2rem;
+    }
+
+    .soft-card {
+        border: 0;
+        border-radius: 1rem;
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .soft-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, .08) !important;
+    }
+
+    .feature-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    .pricing-card {
+        border: 0;
+        border-radius: 1.25rem;
+        overflow: hidden;
+    }
+
+    .pricing-value {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        line-height: 1;
+    }
+
+    .section-title {
+        max-width: 760px;
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<!-- ====================================================== -->
+<!-- HERO -->
+<!-- ====================================================== -->
+
+<section class="hero-section">
+
+    <div class="container py-5">
+
+        <div class="row align-items-center g-5">
+
+            <!-- TEXTO -->
+            <div class="col-lg-7">
+
+                
+
+                <h1 class="hero-title fw-bold mb-4">
+                    Gestiona tu operación financiera
+                    <span class="text-primary">
+                        desde un solo lugar.
+                    </span>
+                </h1>
+
+                <p class="hero-text text-muted mb-4">
+                    AUREUM centraliza socios, créditos, expedientes,
+                    documentación y control operativo en una plataforma
+                    diseñada para instituciones financieras.
+                </p>
+
+
+                <div class="d-flex flex-column flex-sm-row gap-3 mb-4">
+
+                    <a
+                        href="/sofom/register/"
+                        class="btn btn-primary btn-lg px-4"
+                    >
+                        Solicitar acceso
+                    </a>
+
+                    <a
+                        href="/login/"
+                        class="btn btn-outline-dark btn-lg px-4"
+                    >
+                        Iniciar sesión
+                    </a>
+
+                </div>
+
+
+                <div class="d-flex flex-wrap gap-4 text-muted small">
+
+                    <span>
+                        ✓ Primer mes sin costo
+                    </span>
+
+                    <span>
+                        ✓ Acceso completo
+                    </span>
+
+                    <span>
+                        ✓ Sin costos ocultos
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- PANEL VISUAL -->
+            <div class="col-lg-5">
+
+                <div class="card border-0 shadow-lg rounded-4">
+
+                    <div class="card-body p-4 p-lg-5">
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+
+                            <div>
+
+                                <small class="text-muted d-block">
+                                    Vista general
+                                </small>
+
+                                <h5 class="fw-bold mb-0">
+                                    Operación financiera
+                                </h5>
+
+                            </div>
+
+                            <span class="badge bg-success-subtle text-success">
+                                En línea
+                            </span>
+
+                        </div>
+
+
+                        <div class="row g-3 mb-4">
+
+                            <div class="col-6">
+
+                                <div class="bg-light rounded-3 p-3">
+
+                                    <small class="text-muted">
+                                        Socios
+                                    </small>
+
+                                    <div class="feature-number mt-1">
+                                        56
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-6">
+
+                                <div class="bg-light rounded-3 p-3">
+
+                                    <small class="text-muted">
+                                        Créditos activos
+                                    </small>
+
+                                    <div class="feature-number mt-1">
+                                        43
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        
+
+
+                        <div class="small text-muted">
+                            Socios · Créditos · Documentos · Seguimiento
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ====================================================== -->
+<!-- BENEFICIOS -->
+<!-- ====================================================== -->
+
+<section class="py-5 bg-white border-top border-bottom">
+
+    <div class="container py-4">
+
+        <div class="text-center mb-5">
+
+            <span class="text-primary fw-semibold small text-uppercase">
+                Operación centralizada
+            </span>
+
+            <h2 class="fw-bold mt-2 mb-3">
+                Menos fragmentación. Más control.
+            </h2>
+
+            <p class="text-muted mx-auto section-title">
+                AUREUM organiza la información operativa de la institución
+                y facilita el seguimiento de cada socio y cada crédito
+                desde un mismo entorno.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            <!-- SOCIOS -->
+            <div class="col-md-6 col-xl-3">
+
+                <div class="card soft-card shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="fs-3 fw-bold text-primary mb-3">
+                            01
+                        </div>
+
+                        <h5 class="fw-bold">
+                            Socios
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Integra expedientes, información fiscal,
+                            datos de contacto y documentación en un
+                            único registro.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CRÉDITOS -->
+            <div class="col-md-6 col-xl-3">
+
+                <div class="card soft-card shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="fs-3 fw-bold text-primary mb-3">
+                            02
+                        </div>
+
+                        <h5 class="fw-bold">
+                            Créditos
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Da seguimiento a solicitudes, condiciones,
+                            estados y operaciones de crédito desde su
+                            creación hasta su liquidación.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DOCUMENTOS -->
+            <div class="col-md-6 col-xl-3">
+
+                <div class="card soft-card shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="fs-3 fw-bold text-primary mb-3">
+                            03
+                        </div>
+
+                        <h5 class="fw-bold">
+                            Documentación
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Centraliza contratos, identificaciones,
+                            comprobantes y archivos asociados a cada
+                            expediente.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTROL -->
+            <div class="col-md-6 col-xl-3">
+
+                <div class="card soft-card shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="fs-3 fw-bold text-primary mb-3">
+                            04
+                        </div>
+
+                        <h5 class="fw-bold">
+                            Control operativo
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Visualiza indicadores, estados de cartera
+                            y actividad general para facilitar el
+                            seguimiento de la operación.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ====================================================== -->
+<!-- PROPUESTA -->
+<!-- ====================================================== -->
+
+<section class="py-5">
+
+    <div class="container py-5">
+
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6">
+
+                <span class="text-primary fw-semibold small text-uppercase">
+                    Una sola plataforma
+                </span>
+
+                <h2 class="display-6 fw-bold mt-2 mb-4">
+                    La operación de tu SOFOM no debería vivir en hojas,
+                    chats y carpetas separadas.
+                </h2>
+
+                <p class="text-muted mb-4">
+                    AUREUM concentra la información crítica de la institución
+                    y la organiza alrededor de socios y operaciones.
+                    El objetivo es facilitar consulta, seguimiento y
+                    trazabilidad.
+                </p>
+
+                <a
+                    href="/about/"
+                    class="btn btn-outline-primary"
+                >
+                    Conocer AUREUM
+                </a>
+
+            </div>
+
+
+            <div class="col-lg-6">
+
+                <div class="card border-0 shadow-sm rounded-4">
+
+                    <div class="card-body p-4 p-lg-5">
+
+
+                        <div class="d-flex gap-3 mb-4">
+
+                            <div class="badge bg-primary rounded-pill p-2">
+                                ✓
+                            </div>
+
+                            <div>
+
+                                <h6 class="fw-bold mb-1">
+                                    Expedientes centralizados
+                                </h6>
+
+                                <p class="text-muted small mb-0">
+                                    Toda la información del socio disponible
+                                    desde un mismo punto.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="d-flex gap-3 mb-4">
+
+                            <div class="badge bg-primary rounded-pill p-2">
+                                ✓
+                            </div>
+
+                            <div>
+
+                                <h6 class="fw-bold mb-1">
+                                    Seguimiento de cartera
+                                </h6>
+
+                                <p class="text-muted small mb-0">
+                                    Consulta solicitudes, estados y condiciones
+                                    financieras con mayor claridad.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="d-flex gap-3">
+
+                            <div class="badge bg-primary rounded-pill p-2">
+                                ✓
+                            </div>
+
+                            <div>
+
+                                <h6 class="fw-bold mb-1">
+                                    Plataforma modular
+                                </h6>
+
+                                <p class="text-muted small mb-0">
+                                    Diseñada para incorporar nuevos módulos
+                                    conforme crece la operación.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ====================================================== -->
+<!-- PRECIO -->
+<!-- ====================================================== -->
+
+<section class="py-5 bg-white border-top">
+
+    <div class="container py-5">
+
+        <div class="text-center mb-5">
+
+            <span class="text-primary fw-semibold small text-uppercase">
+                Precio simple
+            </span>
+
+            <h2 class="fw-bold mt-2">
+                Una tarifa. Acceso completo.
+            </h2>
+
+        </div>
+
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-6 col-xl-5">
+
+                <div class="card pricing-card shadow-lg">
+
+                    <div class="card-body p-4 p-lg-5 text-center">
+
+
+                        <span class="badge bg-success-subtle text-success mb-3">
+                            Primer mes gratis
+                        </span>
+
+
+                        <div class="pricing-value fw-bold mb-2">
+                            $3,000
+                        </div>
+
+                        <div class="text-muted mb-4">
+                            MXN / mes por empresa
+                        </div>
+
+
+                        <hr class="my-4">
+
+
+                        <div class="text-start mx-auto mb-4"
+                             style="max-width: 320px;">
+
+                            <p class="mb-3">
+                                ✓ Gestión de socios
+                            </p>
+
+                            <p class="mb-3">
+                                ✓ Administración de créditos
+                            </p>
+
+                            <p class="mb-3">
+                                ✓ Expedientes documentales
+                            </p>
+
+                            <p class="mb-3">
+                                ✓ Dashboard administrativo
+                            </p>
+
+                            <p class="mb-0">
+                                ✓ Acceso completo a la plataforma
+                            </p>
+
+                        </div>
+
+
+                        <a
+                            href="/sofom/register/"
+                            class="btn btn-primary btn-lg w-100"
+                        >
+                            Solicitar acceso
+                        </a>
+
+
+                        <p class="small text-muted mt-3 mb-0">
+                            Sin costos ocultos.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ====================================================== -->
+<!-- CTA FINAL -->
+<!-- ====================================================== -->
+
+<section class="py-5">
+
+    <div class="container py-5">
+
+        <div class="bg-dark text-white rounded-4 p-4 p-lg-5 text-center">
+
+            <h2 class="fw-bold mb-3">
+                Centraliza la operación de tu institución.
+            </h2>
+
+            <p class="text-white-50 mb-4 mx-auto"
+               style="max-width: 650px;">
+                Solicita acceso a AUREUM y comienza a gestionar
+                socios, créditos y expedientes desde una sola plataforma.
+            </p>
+
+
+            <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+
+                <a
+                    href="/sofom/register/"
+                    class="btn btn-primary btn-lg px-4"
+                >
+                    Solicitar acceso
+                </a>
+
+                <a
+                    href="/login/"
+                    class="btn btn-outline-light btn-lg px-4"
+                >
+                    Iniciar sesión
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

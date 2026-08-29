@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login | AUREUM
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-md-8 col-lg-5 col-xl-4">
+
+                <div class="text-center mb-4">
+
+                    <span class="badge bg-primary-subtle text-primary mb-3">
+                        Acceso administrativo
+                    </span>
+
+                    <h2 class="fw-bold mb-2">
+                        Iniciar sesión
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Accede al panel de tu institución en AUREUM.
+                    </p>
+
+                </div>
+
+
+                <div class="card border-0 shadow-sm rounded-4">
+
+                    <div class="card-body p-4 p-lg-5">
+
+                        {% if messages %}
+
+                            {% for message in messages %}
+
+                                <div
+                                    class="alert alert-{{ message.tags|default:'danger' }}"
+                                    role="alert"
+                                >
+                                    {{ message }}
+                                </div>
+
+                            {% endfor %}
+
+                        {% endif %}
+
+
+                        {% if error %}
+
+                            <div class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </div>
+
+                        {% endif %}
+
+
+                        <form method="POST">
+
+                            {% csrf_token %}
+
+
+                            <!-- USUARIO -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="username"
+                                    class="form-label fw-semibold"
+                                >
+                                    Usuario o correo
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    class="form-control form-control-lg"
+                                    placeholder="Ingresa tu usuario"
+                                    autocomplete="username"
+                                    autofocus
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- CONTRASEÑA -->
+                            <div class="mb-4">
+
+                                <label
+                                    for="password"
+                                    class="form-label fw-semibold"
+                                >
+                                    Contraseña
+                                </label>
+
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    class="form-control form-control-lg"
+                                    placeholder="Ingresa tu contraseña"
+                                    autocomplete="current-password"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- SUBMIT -->
+                            <button
+                                type="submit"
+                                class="btn btn-primary btn-lg w-100"
+                            >
+                                Iniciar sesión
+                            </button>
+
+                        </form>
+
+
+                        <div class="text-center mt-4">
+
+                            <small class="text-muted">
+                                El acceso está disponible únicamente para
+                                usuarios autorizados de la institución.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- REGISTRO -->
+                <div class="text-center mt-4">
+
+                    <p class="text-muted small mb-2">
+                        ¿Tu institución aún no utiliza AUREUM?
+                    </p>
+
+                    <a
+                        href="/sofom/register/"
+                        class="btn btn-outline-secondary"
+                    >
+                        Solicitar acceso
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

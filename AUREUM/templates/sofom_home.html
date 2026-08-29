@@ -1,0 +1,426 @@
+{% extends "base_clients.html" %}
+
+{% block title %}
+Monarca | Oportunidades financieras
+{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+    .hero-monarca {
+        padding: 4rem 0 3rem;
+    }
+
+    .hero-title {
+        font-size: clamp(2.8rem, 6vw, 5rem);
+        line-height: 1;
+    }
+
+    .hero-copy {
+        max-width: 720px;
+        font-size: 1.15rem;
+    }
+
+    .benefit-card {
+        border: 0;
+        border-radius: 1rem;
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .benefit-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, .08) !important;
+    }
+
+    .step-number {
+        font-size: 2.2rem;
+        font-weight: 700;
+        line-height: 1;
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<!-- ====================================================== -->
+<!-- HERO -->
+<!-- ====================================================== -->
+
+<section class="hero-monarca">
+
+    <div class="row align-items-center g-5">
+
+        <div class="col-lg-7">
+
+            <span class="badge bg-primary-subtle text-primary mb-3 px-3 py-2">
+                FINANCIAMIENTO PARA TU NEGOCIO
+            </span>
+
+            <h1 class="hero-title fw-bold mb-4">
+                Impulsa tu negocio con
+                <span class="text-primary">
+                    financiamiento a tu medida.
+                </span>
+            </h1>
+
+            <p class="hero-copy text-muted mb-4">
+                Monarca te permite iniciar una solicitud de crédito
+                de forma sencilla, integrar tu expediente y dar paso
+                al proceso de evaluación financiera.
+            </p>
+
+            <div class="d-flex flex-column flex-sm-row gap-3">
+
+                <a
+                    href="/monarca/register/"
+                    class="btn btn-primary btn-lg px-4"
+                >
+                    Solicitar financiamiento
+                </a>
+
+                <a
+                    href="#como-funciona"
+                    class="btn btn-outline-secondary btn-lg px-4"
+                >
+                    Cómo funciona
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-5">
+
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <div class="card-body p-4 p-lg-5">
+
+                    <small class="text-muted d-block mb-1">
+                        Solicitud digital
+                    </small>
+
+                    <h4 class="fw-bold mb-4">
+                        Empieza tu proceso en pocos pasos
+                    </h4>
+
+
+                    <div class="d-flex gap-3 mb-4">
+
+                        <div class="step-number text-primary">
+                            01
+                        </div>
+
+                        <div>
+
+                            <h6 class="fw-bold mb-1">
+                                Registra tus datos
+                            </h6>
+
+                            <p class="text-muted small mb-0">
+                                Captura la información básica de tu persona
+                                o empresa.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex gap-3 mb-4">
+
+                        <div class="step-number text-primary">
+                            02
+                        </div>
+
+                        <div>
+
+                            <h6 class="fw-bold mb-1">
+                                Integra tu expediente
+                            </h6>
+
+                            <p class="text-muted small mb-0">
+                                Adjunta la documentación requerida para
+                                iniciar la evaluación.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex gap-3">
+
+                        <div class="step-number text-primary">
+                            03
+                        </div>
+
+                        <div>
+
+                            <h6 class="fw-bold mb-1">
+                                Envía tu solicitud
+                            </h6>
+
+                            <p class="text-muted small mb-0">
+                                Tu información queda disponible para revisión
+                                y seguimiento.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- BENEFICIOS -->
+<!-- ====================================================== -->
+
+<section class="py-5 border-top">
+
+    <div class="text-center mb-5">
+
+        <span class="text-primary fw-semibold small text-uppercase">
+            Una experiencia más simple
+        </span>
+
+        <h2 class="fw-bold mt-2 mb-3">
+            Solicita financiamiento con mayor claridad.
+        </h2>
+
+        <p class="text-muted mx-auto" style="max-width: 700px;">
+            Un proceso estructurado para reunir tu información
+            y facilitar la evaluación de tu solicitud.
+        </p>
+
+    </div>
+
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+
+            <div class="card benefit-card shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="fs-3 fw-bold text-primary mb-3">
+                        01
+                    </div>
+
+                    <h5 class="fw-bold">
+                        Solicitud estructurada
+                    </h5>
+
+                    <p class="text-muted mb-0">
+                        Registra la información necesaria para integrar
+                        tu expediente desde el inicio.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card benefit-card shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="fs-3 fw-bold text-primary mb-3">
+                        02
+                    </div>
+
+                    <h5 class="fw-bold">
+                        Documentación centralizada
+                    </h5>
+
+                    <p class="text-muted mb-0">
+                        Adjunta la documentación correspondiente a tu
+                        tipo de persona dentro de la misma solicitud.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card benefit-card shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="fs-3 fw-bold text-primary mb-3">
+                        03
+                    </div>
+
+                    <h5 class="fw-bold">
+                        Seguimiento claro
+                    </h5>
+
+                    <p class="text-muted mb-0">
+                        Cada solicitud se integra al sistema para su
+                        revisión y administración.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- CÓMO FUNCIONA -->
+<!-- ====================================================== -->
+
+<section id="como-funciona" class="py-5">
+
+    <div class="row align-items-center g-5">
+
+        <div class="col-lg-6">
+
+            <span class="text-primary fw-semibold small text-uppercase">
+                Cómo funciona
+            </span>
+
+            <h2 class="fw-bold mt-2 mb-4">
+                De la solicitud al expediente.
+            </h2>
+
+            <p class="text-muted">
+                Monarca permite capturar los datos del solicitante,
+                identificar si se trata de una persona física o moral,
+                solicitar la documentación correspondiente y registrar
+                la solicitud de crédito dentro de AUREUM.
+            </p>
+
+            <p class="text-muted mb-0">
+                La información queda asociada a un expediente único
+                para facilitar su consulta y administración.
+            </p>
+
+        </div>
+
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-body p-4 p-lg-5">
+
+                    <div class="mb-4">
+
+                        <small class="text-muted d-block">
+                            Paso 1
+                        </small>
+
+                        <h6 class="fw-bold mb-1">
+                            Identificación
+                        </h6>
+
+                        <p class="text-muted small mb-0">
+                            Ingresa tu RFC y datos generales.
+                        </p>
+
+                    </div>
+
+
+                    <div class="mb-4">
+
+                        <small class="text-muted d-block">
+                            Paso 2
+                        </small>
+
+                        <h6 class="fw-bold mb-1">
+                            Expediente
+                        </h6>
+
+                        <p class="text-muted small mb-0">
+                            Adjunta los documentos requeridos.
+                        </p>
+
+                    </div>
+
+
+                    <div>
+
+                        <small class="text-muted d-block">
+                            Paso 3
+                        </small>
+
+                        <h6 class="fw-bold mb-1">
+                            Solicitud
+                        </h6>
+
+                        <p class="text-muted small mb-0">
+                            Define el monto solicitado y envía la información
+                            para revisión.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- CTA FINAL -->
+<!-- ====================================================== -->
+
+<section class="pb-5">
+
+    <div class="bg-dark text-white rounded-4 p-4 p-lg-5 text-center">
+
+        <h2 class="fw-bold mb-3">
+            Da el primer paso para solicitar financiamiento.
+        </h2>
+
+        <p class="text-white-50 mx-auto mb-4"
+           style="max-width: 650px;">
+            Completa tu información, integra tu expediente
+            y envía tu solicitud desde Monarca.
+        </p>
+
+        <a
+            href="/monarca/register/"
+            class="btn btn-primary btn-lg px-4"
+        >
+            Comenzar solicitud
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

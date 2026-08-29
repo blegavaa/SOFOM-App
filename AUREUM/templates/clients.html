@@ -1,0 +1,393 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Socios | AUREUM
+{% endblock %}
+
+{% block content %}
+
+<!-- ENCABEZADO -->
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+        <h2 class="fw-bold mb-1">
+            Socios
+        </h2>
+
+        <p class="text-muted mb-0">
+            Administración y consulta de expedientes de socios.
+        </p>
+    </div>
+
+    <a
+        href="/monarca/clients/new/"
+        class="btn btn-primary px-4"
+    >
+        + Nuevo socio
+    </a>
+
+</div>
+
+
+<!-- RESUMEN -->
+<div class="row g-3 mb-4">
+
+    <div class="col-sm-6 col-lg-4">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Socios registrados
+                </small>
+
+                <h3 class="fw-bold mb-0 mt-1">
+                    {{ total_clients|default:0 }}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-sm-6 col-lg-4">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Socios activos
+                </small>
+
+                <h3 class="fw-bold text-success mb-0 mt-1">
+                    {{ active_clients|default:0 }}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-sm-6 col-lg-4">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Con crédito activo
+                </small>
+
+                <h3 class="fw-bold text-primary mb-0 mt-1">
+                    {{ clients_with_active_credit|default:0 }}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- BUSCADOR -->
+<div class="card border-0 shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <form method="GET">
+
+            <div class="row g-3 align-items-end">
+
+                <div class="col-md-8">
+
+                    <label
+                        for="q"
+                        class="form-label fw-semibold"
+                    >
+                        Buscar socio
+                    </label>
+
+                    <input
+                        type="text"
+                        id="q"
+                        name="q"
+                        class="form-control"
+                        value="{{ search }}"
+                        placeholder="Nombre, matrícula, RFC, correo..."
+                    >
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="d-flex gap-2">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary flex-grow-1"
+                        >
+                            Buscar
+                        </button>
+
+                        {% if search %}
+
+                            <a
+                                href="/monarca/clients/"
+                                class="btn btn-outline-secondary"
+                            >
+                                Limpiar
+                            </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- LISTADO -->
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <div>
+
+                <h5 class="fw-bold mb-0">
+                    Expedientes
+                </h5>
+
+                {% if search %}
+
+                    <small class="text-muted">
+                        Resultados para “{{ search }}”
+                    </small>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        {% if clients %}
+
+            <div class="list-group list-group-flush">
+
+                {% for client in clients %}
+
+                    <a
+                        href="{% url 'clients_detail' client.matricula %}"
+                        class="list-group-item list-group-item-action px-0 py-3 border-0 border-bottom text-decoration-none"
+                    >
+
+                        <div class="d-flex align-items-center gap-3">
+
+
+                            <!-- INDICADOR -->
+                            <div
+                                class="rounded flex-shrink-0"
+                                style="
+                                    width: 5px;
+                                    min-height: 72px;
+                                    align-self: stretch;
+                                    background-color:
+                                    {% if client.has_active_credits %}
+                                        #0d6efd
+                                    {% elif client.is_active %}
+                                        #198754
+                                    {% else %}
+                                        #adb5bd
+                                    {% endif %};
+                                "
+                            >
+                            </div>
+
+
+                            <!-- INFORMACIÓN -->
+                            <div class="flex-grow-1">
+
+                                <div class="d-flex flex-column flex-md-row justify-content-between gap-2">
+
+                                    <div>
+
+                                        <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+
+                                            <span class="fw-bold text-dark">
+                                                {{ client.name|default:"Socio sin nombre" }}
+                                            </span>
+
+
+                                            <!-- TIPO -->
+                                            {% if client.person_type == "INDIVIDUAL" %}
+
+                                                <span class="badge bg-primary-subtle text-primary">
+                                                    Persona física
+                                                </span>
+
+                                            {% elif client.person_type == "COMPANY" %}
+
+                                                <span class="badge bg-secondary-subtle text-secondary">
+                                                    Persona moral
+                                                </span>
+
+                                            {% endif %}
+
+
+                                            <!-- ESTADO -->
+                                            {% if not client.is_active %}
+
+                                                <span class="badge bg-light text-secondary border">
+                                                    Inactivo
+                                                </span>
+
+                                            {% elif client.has_active_credits %}
+
+                                                <span class="badge bg-success">
+                                                    Crédito activo
+                                                </span>
+
+                                            {% endif %}
+
+                                        </div>
+
+
+                                        <div class="small text-muted">
+
+                                            <span class="me-3">
+                                                <strong>Matrícula:</strong>
+                                                {{ client.matricula|default:"Pendiente" }}
+                                            </span>
+
+                                            <span>
+                                                <strong>RFC:</strong>
+                                                {{ client.rfc|default:"No registrado" }}
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- CRÉDITOS -->
+                                    <div class="text-md-end">
+
+                                        <small class="text-muted d-block">
+                                            Créditos
+                                        </small>
+
+                                        <span class="fw-semibold text-dark">
+                                            {{ client.credits.count }}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="mt-2 small text-muted">
+
+                                    {% if client.phone %}
+
+                                        <span class="me-3">
+                                            {{ client.phone }}
+                                        </span>
+
+                                    {% endif %}
+
+
+                                    {% if client.email %}
+
+                                        <span>
+                                            {{ client.email }}
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- FLECHA -->
+                            <div class="text-muted fs-5 flex-shrink-0">
+                                ›
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                {% endfor %}
+
+            </div>
+
+
+        {% else %}
+
+            <div class="text-center py-5">
+
+                {% if search %}
+
+                    <h5 class="fw-semibold mb-2">
+                        No se encontraron socios
+                    </h5>
+
+                    <p class="text-muted mb-3">
+                        No existen socios que coincidan con “{{ search }}”.
+                    </p>
+
+                    <a
+                        href="/monarca/clients/"
+                        class="btn btn-outline-primary"
+                    >
+                        Mostrar todos
+                    </a>
+
+                {% else %}
+
+                    <h5 class="fw-semibold mb-2">
+                        No hay socios registrados
+                    </h5>
+
+                    <p class="text-muted mb-3">
+                        Registra el primer socio para comenzar a integrar
+                        expedientes y solicitudes de crédito.
+                    </p>
+
+                    <a
+                        href="/monarca/clients/new/"
+                        class="btn btn-primary"
+                    >
+                        + Registrar socio
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

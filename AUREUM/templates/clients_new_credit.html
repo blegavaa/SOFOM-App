@@ -1,0 +1,416 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Nuevo crédito | AUREUM
+{% endblock %}
+
+{% block content %}
+
+<!-- ENCABEZADO -->
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <a
+            href="{% url 'clients_detail' client.matricula %}"
+            class="text-decoration-none small text-muted"
+        >
+            ← Volver al expediente
+        </a>
+
+        <h2 class="fw-bold mb-1 mt-2">
+            Nueva solicitud de crédito
+        </h2>
+
+        <p class="text-muted mb-0">
+            Registrar una nueva solicitud para {{ client.name }}
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="row g-4">
+
+    <!-- INFORMACIÓN DEL SOCIO -->
+    <div class="col-lg-4">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="mb-4">
+
+                    <h5 class="fw-bold mb-1">
+                        Socio
+                    </h5>
+
+                    <small class="text-muted">
+                        Datos asociados a la solicitud
+                    </small>
+
+                </div>
+
+
+                <!-- NOMBRE -->
+                <div class="mb-3">
+
+                    <small class="text-muted d-block">
+                        {% if client.person_type == "COMPANY" %}
+                            Razón social
+                        {% else %}
+                            Nombre
+                        {% endif %}
+                    </small>
+
+                    <span class="fw-semibold">
+                        {{ client.name }}
+                    </span>
+
+                </div>
+
+
+                <!-- MATRÍCULA -->
+                <div class="mb-3">
+
+                    <small class="text-muted d-block">
+                        Matrícula
+                    </small>
+
+                    {% if client.matricula %}
+
+                        <span class="badge bg-light text-dark border">
+                            {{ client.matricula }}
+                        </span>
+
+                    {% else %}
+
+                        <span class="text-muted">
+                            Pendiente
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- REGISTRATION NUMBER -->
+                {% if client.registration_number %}
+
+                    <div class="mb-3">
+
+                        <small class="text-muted d-block">
+                            Número de registro
+                        </small>
+
+                        <span>
+                            {{ client.registration_number }}
+                        </span>
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- TIPO -->
+                <div class="mb-3">
+
+                    <small class="text-muted d-block">
+                        Tipo de persona
+                    </small>
+
+                    {% if client.person_type == "INDIVIDUAL" %}
+
+                        <span class="badge bg-primary-subtle text-primary">
+                            Persona física
+                        </span>
+
+                    {% elif client.person_type == "COMPANY" %}
+
+                        <span class="badge bg-secondary-subtle text-secondary">
+                            Persona moral
+                        </span>
+
+                    {% else %}
+
+                        <span class="text-muted">
+                            No definido
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- RFC -->
+                <div class="mb-3">
+
+                    <small class="text-muted d-block">
+                        RFC
+                    </small>
+
+                    <span class="fw-semibold">
+                        {{ client.rfc|default:"No registrado" }}
+                    </span>
+
+                </div>
+
+
+                <!-- INGRESO -->
+                <div class="mb-3">
+
+                    <small class="text-muted d-block">
+                        {% if client.person_type == "COMPANY" %}
+                            Ingreso mensual declarado
+                        {% else %}
+                            Ingreso mensual
+                        {% endif %}
+                    </small>
+
+                    {% if client.monthly_income %}
+
+                        <span class="fw-semibold">
+                            ${{ client.monthly_income|floatformat:2 }}
+                        </span>
+
+                    {% else %}
+
+                        <span class="text-muted">
+                            No registrado
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- CRÉDITOS EXISTENTES -->
+                <div>
+
+                    <small class="text-muted d-block">
+                        Créditos registrados
+                    </small>
+
+                    <span class="fw-semibold">
+                        {{ client.credits.count }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FORMULARIO -->
+    <div class="col-lg-8">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body p-4">
+
+                <div class="mb-4">
+
+                    <h5 class="fw-bold mb-1">
+                        Datos de la solicitud
+                    </h5>
+
+                    <p class="text-muted small mb-0">
+                        La solicitud será registrada inicialmente como
+                        <strong>En revisión</strong>.
+                    </p>
+
+                </div>
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+                    <!-- NOMBRE DEL CRÉDITO -->
+                    <div class="mb-3">
+
+                        <label
+                            for="name"
+                            class="form-label fw-semibold"
+                        >
+                            Nombre del crédito
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            class="form-control"
+                            maxlength="255"
+                            placeholder="Ej. Crédito personal, Capital de trabajo..."
+                            autocomplete="off"
+                            required
+                        >
+
+                        <div class="form-text">
+                            Asigna un nombre breve que permita identificar
+                            fácilmente esta operación.
+                        </div>
+
+                    </div>
+
+
+                    <!-- MONTO -->
+                    <div class="mb-3">
+
+                        <label
+                            for="amount_requested"
+                            class="form-label fw-semibold"
+                        >
+                            Monto solicitado
+                        </label>
+
+                        <div class="input-group">
+
+                            <span class="input-group-text">
+                                $
+                            </span>
+
+                            <input
+                                type="number"
+                                id="amount_requested"
+                                name="amount_requested"
+                                class="form-control"
+                                min="0.01"
+                                step="0.01"
+                                inputmode="decimal"
+                                placeholder="0.00"
+                                required
+                            >
+
+                            <span class="input-group-text">
+                                MXN
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FRECUENCIA -->
+                    <div class="mb-3">
+
+                        <label
+                            for="payment_frequency"
+                            class="form-label fw-semibold"
+                        >
+                            Frecuencia de pago
+                        </label>
+
+                        <select
+                            id="payment_frequency"
+                            name="payment_frequency"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="" selected disabled>
+                                Selecciona una frecuencia
+                            </option>
+
+                            <option value="WEEKLY">
+                                Semanal
+                            </option>
+
+                            <option value="BIWEEKLY">
+                                Quincenal
+                            </option>
+
+                            <option value="MONTHLY">
+                                Mensual
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DESCRIPCIÓN -->
+                    <div class="mb-4">
+
+                        <label
+                            for="description"
+                            class="form-label fw-semibold"
+                        >
+                            Destino / descripción
+                        </label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            class="form-control"
+                            rows="4"
+                            maxlength="1000"
+                            placeholder="Ej. Compra de equipo, capital de trabajo, remodelación..."
+                        ></textarea>
+
+                        <div class="form-text">
+                            Opcional. Registra el destino del financiamiento
+                            u observaciones relevantes.
+                        </div>
+
+                    </div>
+
+
+                    <!-- ESTADO -->
+                    <div class="alert alert-warning-subtle border d-flex justify-content-between align-items-center gap-3 mb-4">
+
+                        <div>
+
+                            <small class="text-muted d-block">
+                                Estado inicial
+                            </small>
+
+                            <span class="fw-semibold">
+                                En revisión
+                            </span>
+
+                        </div>
+
+                        <span class="badge bg-warning text-dark">
+                            En revisión
+                        </span>
+
+                    </div>
+
+
+                    <!-- ACCIONES -->
+                    <div class="d-flex flex-column flex-sm-row justify-content-end gap-2">
+
+                        <a
+                            href="{% url 'clients_detail' client.matricula %}"
+                            class="btn btn-outline-secondary"
+                        >
+                            Cancelar
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary px-4"
+                        >
+                            Crear solicitud
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

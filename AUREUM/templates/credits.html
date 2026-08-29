@@ -1,0 +1,631 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Créditos | AUREUM
+{% endblock %}
+
+{% block content %}
+
+
+<!-- ====================================================== -->
+<!-- ENCABEZADO -->
+<!-- ====================================================== -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">
+            Créditos
+        </h2>
+
+        <p class="text-muted mb-0">
+            Administración y seguimiento de la cartera de crédito.
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- INDICADORES -->
+<!-- ====================================================== -->
+
+<div class="row g-3 mb-4">
+
+
+    <!-- TOTAL -->
+    <div class="col-sm-6 col-xl">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Total de créditos
+                </small>
+
+                <h3 class="fw-bold mb-0 mt-1">
+                    {{ total_credits|default:0 }}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- REVIEW -->
+    <div class="col-sm-6 col-xl">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    En revisión
+                </small>
+
+                <h3 class="fw-bold text-warning mb-0 mt-1">
+                    {{ credits_review|default:0 }}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- APPROVED -->
+    <div class="col-sm-6 col-xl">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Aprobados
+                </small>
+
+                <h3 class="fw-bold text-success mb-0 mt-1">
+                    {{ credits_approved|default:0 }}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIVE -->
+    <div class="col-sm-6 col-xl">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Activos
+                </small>
+
+                <h3 class="fw-bold text-primary mb-0 mt-1">
+                    {{ credits_active|default:0 }}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PAID -->
+    <div class="col-sm-6 col-xl">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Pagados
+                </small>
+
+                <h3 class="fw-bold mb-0 mt-1">
+                    {{ credits_paid|default:0 }}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- MONTOS -->
+<!-- ====================================================== -->
+
+<div class="row g-3 mb-4">
+
+    <div class="col-md-6">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Monto total solicitado
+                </small>
+
+                <h4 class="fw-bold mb-0 mt-1">
+                    ${{ total_requested|default:0|floatformat:2 }}
+                </h4>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-6">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Monto total aprobado
+                </small>
+
+                <h4 class="fw-bold text-success mb-0 mt-1">
+                    ${{ total_approved|default:0|floatformat:2 }}
+                </h4>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- FILTROS -->
+<!-- ====================================================== -->
+
+<div class="card border-0 shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <form method="GET">
+
+            <div class="row g-3 align-items-end">
+
+                <!-- BÚSQUEDA -->
+                <div class="col-lg-6">
+
+                    <label
+                        for="q"
+                        class="form-label fw-semibold"
+                    >
+                        Buscar
+                    </label>
+
+                    <input
+                        type="text"
+                        id="q"
+                        name="q"
+                        class="form-control"
+                        placeholder="Nombre, matrícula, RFC o crédito"
+                        value="{{ search }}"
+                    >
+
+                </div>
+
+
+                <!-- ESTADO -->
+                <div class="col-md-4 col-lg-3">
+
+                    <label
+                        for="status"
+                        class="form-label fw-semibold"
+                    >
+                        Estado
+                    </label>
+
+                    <select
+                        id="status"
+                        name="status"
+                        class="form-select"
+                    >
+
+                        <option value="">
+                            Todos
+                        </option>
+
+                        <option
+                            value="REVIEW"
+                            {% if selected_status == "REVIEW" %}selected{% endif %}
+                        >
+                            En revisión
+                        </option>
+
+                        <option
+                            value="APPROVED"
+                            {% if selected_status == "APPROVED" %}selected{% endif %}
+                        >
+                            Aprobado
+                        </option>
+
+                        <option
+                            value="ACTIVE"
+                            {% if selected_status == "ACTIVE" %}selected{% endif %}
+                        >
+                            Activo
+                        </option>
+
+                        <option
+                            value="PAID"
+                            {% if selected_status == "PAID" %}selected{% endif %}
+                        >
+                            Pagado
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- BOTONES -->
+                <div class="col-md-8 col-lg-3">
+
+                    <div class="d-flex gap-2">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary flex-grow-1"
+                        >
+                            Filtrar
+                        </button>
+
+
+                        {% if search or selected_status %}
+
+                            <a
+                                href="/monarca/credits/"
+                                class="btn btn-outline-secondary"
+                            >
+                                Limpiar
+                            </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- CARTERA -->
+<!-- ====================================================== -->
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <div>
+
+                <h5 class="fw-bold mb-0">
+                    Cartera de créditos
+                </h5>
+
+                <small class="text-muted">
+                    Selecciona un crédito para consultar y administrar su expediente.
+                </small>
+
+            </div>
+
+        </div>
+
+
+        {% if credits %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>
+                                Socio
+                            </th>
+
+                            <th>
+                                Crédito
+                            </th>
+
+                            <th>
+                                Solicitado
+                            </th>
+
+                            <th>
+                                Aprobado
+                            </th>
+
+                            <th>
+                                Condiciones
+                            </th>
+
+                            <th>
+                                Estado
+                            </th>
+
+                            <th>
+                                Registro
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for credit in credits %}
+
+                            <tr
+                                role="button"
+                                tabindex="0"
+                                style="cursor: pointer;"
+                                onclick="window.location='{% url 'credit_detail' credit.id %}'"
+                                onkeydown="
+                                    if (event.key === 'Enter' || event.key === ' ') {
+                                        window.location='{% url 'credit_detail' credit.id %}';
+                                    }
+                                "
+                            >
+
+
+                                <!-- SOCIO -->
+                                <td>
+
+                                    <div class="fw-semibold text-dark">
+                                        {{ credit.client.name }}
+                                    </div>
+
+                                    <small class="text-muted d-block">
+                                        {{ credit.client.matricula }}
+                                    </small>
+
+                                    <small class="text-muted d-block">
+                                        RFC {{ credit.client.rfc }}
+                                    </small>
+
+                                </td>
+
+
+                                <!-- CRÉDITO -->
+                                <td>
+
+                                    <div class="fw-semibold text-dark">
+                                        {{ credit.name|default:"Crédito" }}
+                                    </div>
+
+
+                                    {% if credit.assigned_to %}
+
+                                        <small class="text-muted d-block">
+
+                                            Ejecutivo:
+
+                                            {{ credit.assigned_to.get_full_name|default:credit.assigned_to.username }}
+
+                                        </small>
+
+                                    {% else %}
+
+                                        <small class="text-muted">
+                                            Sin ejecutivo asignado
+                                        </small>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- SOLICITADO -->
+                                <td class="fw-semibold text-nowrap">
+
+                                    ${{ credit.amount_requested|floatformat:2 }}
+
+                                </td>
+
+
+                                <!-- APROBADO -->
+                                <td class="text-nowrap">
+
+                                    {% if credit.approved_amount %}
+
+                                        <span class="fw-semibold text-success">
+                                            ${{ credit.approved_amount|floatformat:2 }}
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="text-muted">
+                                            —
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- CONDICIONES -->
+                                <td>
+
+                                    <div class="small">
+
+                                        {% if credit.payment_frequency %}
+
+                                            <div>
+                                                {{ credit.get_payment_frequency_display }}
+                                            </div>
+
+                                        {% endif %}
+
+
+                                        {% if credit.term_months %}
+
+                                            <div class="text-muted">
+                                                {{ credit.term_months }} meses
+                                            </div>
+
+                                        {% endif %}
+
+
+                                        {% if credit.interest_rate %}
+
+                                            <div class="text-muted">
+                                                {{ credit.interest_rate }}% anual
+                                            </div>
+
+                                        {% endif %}
+
+
+                                        {% if not credit.term_months and not credit.interest_rate %}
+
+                                            <span class="text-muted">
+                                                Condiciones por definir
+                                            </span>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- ESTADO -->
+                                <td>
+
+                                    {% if credit.status == "REVIEW" %}
+
+                                        <span class="badge bg-warning text-dark">
+                                            En revisión
+                                        </span>
+
+                                    {% elif credit.status == "APPROVED" %}
+
+                                        <span class="badge bg-success">
+                                            Aprobado
+                                        </span>
+
+                                    {% elif credit.status == "ACTIVE" %}
+
+                                        <span class="badge bg-primary">
+                                            Activo
+                                        </span>
+
+                                    {% elif credit.status == "PAID" %}
+
+                                        <span class="badge bg-secondary">
+                                            Pagado
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge bg-light text-dark border">
+                                            {{ credit.get_status_display }}
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- REGISTRO -->
+                                <td class="text-muted text-nowrap">
+
+                                    {{ credit.created_at|date:"d/m/Y" }}
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <!-- ESTADO VACÍO -->
+            <div class="text-center py-5">
+
+                {% if search or selected_status %}
+
+                    <h5 class="fw-semibold mb-2">
+                        No se encontraron créditos
+                    </h5>
+
+                    <p class="text-muted mb-3">
+                        No existen créditos que coincidan con los filtros seleccionados.
+                    </p>
+
+                    <a
+                        href="/monarca/credits/"
+                        class="btn btn-outline-primary"
+                    >
+                        Mostrar todos
+                    </a>
+
+                {% else %}
+
+                    <h5 class="fw-semibold mb-2">
+                        No hay créditos registrados
+                    </h5>
+
+                    <p class="text-muted mb-0">
+                        Las solicitudes creadas desde los expedientes de socios
+                        aparecerán aquí.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

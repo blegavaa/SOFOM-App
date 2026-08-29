@@ -1,0 +1,577 @@
+{% extends "base.html" %}
+
+{% block title %}
+Registro de Instituciones    | AUREUM
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-xl-9 col-lg-10">
+
+                <!-- ENCABEZADO -->
+                <div class="text-center mb-5">
+
+                    <h1 class="fw-bold mb-3">
+                        Solicita acceso a AUREUM
+                    </h1>
+
+                    <p class="lead text-muted mx-auto mb-0"
+                       style="max-width: 760px;">
+                        Registra al administrador principal y la información
+                        general de tu institución. La solicitud será revisada
+                        antes de habilitar el acceso operativo.
+                    </p>
+
+                </div>
+
+
+                {% if messages %}
+
+                    {% for message in messages %}
+
+                        <div
+                            class="alert alert-{{ message.tags|default:'info' }}"
+                            role="alert"
+                        >
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+                    <!-- ================================================== -->
+                    <!-- ADMINISTRADOR -->
+                    <!-- ================================================== -->
+
+                    <div class="card border-0 shadow-sm mb-4">
+
+                        <div class="card-body p-4 p-lg-5">
+
+                            <div class="d-flex align-items-start gap-3 mb-4">
+
+                                <div class="fs-3 fw-bold text-primary">
+                                    01
+                                </div>
+
+                                <div>
+
+                                    <h4 class="fw-bold mb-1">
+                                        Usuario administrador
+                                    </h4>
+
+                                    <p class="text-muted small mb-0">
+                                        Este usuario tendrá acceso administrativo
+                                        a la institución dentro de AUREUM.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="row g-3">
+
+
+                                <!-- USERNAME -->
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="username"
+                                        class="form-label fw-semibold"
+                                    >
+                                        Nombre de usuario
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="username"
+                                        name="username"
+                                        class="form-control"
+                                        autocomplete="username"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <!-- EMAIL -->
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="email"
+                                        class="form-label fw-semibold"
+                                    >
+                                        Correo electrónico
+                                    </label>
+
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        class="form-control"
+                                        autocomplete="email"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <!-- NOMBRE -->
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="first_name"
+                                        class="form-label fw-semibold"
+                                    >
+                                        Nombre
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="first_name"
+                                        name="first_name"
+                                        class="form-control"
+                                        autocomplete="given-name"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <!-- APELLIDOS -->
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="last_name"
+                                        class="form-label fw-semibold"
+                                    >
+                                        Apellidos
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="last_name"
+                                        name="last_name"
+                                        class="form-control"
+                                        autocomplete="family-name"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <!-- TELÉFONO -->
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="phone"
+                                        class="form-label fw-semibold"
+                                    >
+                                        Teléfono
+                                    </label>
+
+                                    <input
+                                        type="tel"
+                                        id="phone"
+                                        name="phone"
+                                        class="form-control"
+                                        autocomplete="tel"
+                                    >
+
+                                </div>
+
+
+                                <!-- CONTRASEÑA -->
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="password"
+                                        class="form-label fw-semibold"
+                                    >
+                                        Contraseña
+                                    </label>
+
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        name="password"
+                                        class="form-control"
+                                        autocomplete="new-password"
+                                        minlength="8"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <!-- CONFIRMAR -->
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="password_confirm"
+                                        class="form-label fw-semibold"
+                                    >
+                                        Confirmar contraseña
+                                    </label>
+
+                                    <input
+                                        type="password"
+                                        id="password_confirm"
+                                        name="password_confirm"
+                                        class="form-control"
+                                        autocomplete="new-password"
+                                        minlength="8"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ================================================== -->
+                    <!-- SOFOM -->
+                    <!-- ================================================== -->
+
+                    <div class="card border-0 shadow-sm mb-4">
+
+                        <div class="card-body p-4 p-lg-5">
+
+                            <div class="d-flex align-items-start gap-3 mb-4">
+
+                                <div class="fs-3 fw-bold text-primary">
+                                    02
+                                </div>
+
+                                <div>
+
+                                    <h4 class="fw-bold mb-1">
+                                        Datos de la institución
+                                    </h4>
+
+                                    <p class="text-muted small mb-0">
+                                        Información general y fiscal.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="row g-3">
+
+
+                                <!-- RAZÓN SOCIAL -->
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="legal_name"
+                                        class="form-label fw-semibold"
+                                    >
+                                        Razón social
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="legal_name"
+                                        name="legal_name"
+                                        class="form-control"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <!-- NOMBRE COMERCIAL -->
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="trade_name"
+                                        class="form-label fw-semibold"
+                                    >
+                                        Nombre comercial
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="trade_name"
+                                        name="trade_name"
+                                        class="form-control"
+                                    >
+
+                                </div>
+
+
+                                <!-- RFC -->
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="rfc"
+                                        class="form-label fw-semibold"
+                                    >
+                                        RFC
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="rfc"
+                                        name="rfc"
+                                        class="form-control text-uppercase"
+                                        maxlength="13"
+                                        autocomplete="off"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <!-- RÉGIMEN FISCAL -->
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="tax_regime"
+                                        class="form-label fw-semibold"
+                                    >
+                                        Régimen fiscal
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="tax_regime"
+                                        name="tax_regime"
+                                        class="form-control"
+                                    >
+
+                                </div>
+
+
+                                <!-- EMAIL SOFOM -->
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="sofom_email"
+                                        class="form-label fw-semibold"
+                                    >
+                                        Correo institucional
+                                    </label>
+
+                                    <input
+                                        type="email"
+                                        id="sofom_email"
+                                        name="sofom_email"
+                                        class="form-control"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <!-- TELÉFONO SOFOM -->
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="sofom_phone"
+                                        class="form-label fw-semibold"
+                                    >
+                                        Teléfono institucional
+                                    </label>
+
+                                    <input
+                                        type="tel"
+                                        id="sofom_phone"
+                                        name="sofom_phone"
+                                        class="form-control"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <!-- REPRESENTANTE -->
+                                <div class="col-12">
+
+                                    <label
+                                        for="legal_representative_name"
+                                        class="form-label fw-semibold"
+                                    >
+                                        Representante legal
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="legal_representative_name"
+                                        name="legal_representative_name"
+                                        class="form-control"
+                                    >
+
+                                </div>
+
+
+                                <!-- DOMICILIO -->
+                                <div class="col-12">
+
+                                    <label
+                                        for="fiscal_address"
+                                        class="form-label fw-semibold"
+                                    >
+                                        Domicilio fiscal
+                                    </label>
+
+                                    <textarea
+                                        id="fiscal_address"
+                                        name="fiscal_address"
+                                        class="form-control"
+                                        rows="3"
+                                        placeholder="Calle, número, colonia, municipio, estado y código postal"
+                                        required
+                                    ></textarea>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ================================================== -->
+                    <!-- REVISIÓN -->
+                    <!-- ================================================== -->
+
+                    <div class="card border-0 bg-light mb-4">
+
+                        <div class="card-body p-4">
+
+                            <div class="d-flex gap-3">
+
+                                <div class="fs-4">
+                                    ✓
+                                </div>
+
+                                <div>
+
+                                    <h6 class="fw-bold mb-1">
+                                        La solicitud quedará en revisión
+                                    </h6>
+
+                                    <p class="text-muted small mb-0">
+                                        El alta de la institución no habilita
+                                        automáticamente el acceso operativo.
+                                        La información será revisada antes de
+                                        activar la cuenta.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ================================================== -->
+                    <!-- ACCIONES -->
+                    <!-- ================================================== -->
+
+                    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+
+                        <a
+                            href="/login/"
+                            class="text-decoration-none"
+                        >
+                            ¿Ya tienes acceso? Iniciar sesión
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-lg px-5"
+                        >
+                            Enviar solicitud
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+    const password =
+        document.getElementById("password");
+
+    const passwordConfirm =
+        document.getElementById("password_confirm");
+
+    const form =
+        password.closest("form");
+
+
+    form.addEventListener("submit", function(event) {
+
+        if (password.value !== passwordConfirm.value) {
+
+            event.preventDefault();
+
+            passwordConfirm.setCustomValidity(
+                "Las contraseñas no coinciden."
+            );
+
+            passwordConfirm.reportValidity();
+
+            return;
+
+        }
+
+        passwordConfirm.setCustomValidity("");
+
+    });
+
+
+    passwordConfirm.addEventListener("input", function() {
+
+        if (password.value === passwordConfirm.value) {
+
+            passwordConfirm.setCustomValidity("");
+
+        }
+
+    });
+
+</script>
+
+{% endblock %}

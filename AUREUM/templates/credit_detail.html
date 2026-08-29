@@ -1,0 +1,1065 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+{{ credit.name }} | AUREUM
+{% endblock %}
+
+{% block content %}
+
+
+<!-- ====================================================== -->
+<!-- ENCABEZADO -->
+<!-- ====================================================== -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <a
+            href="/monarca/credits/"
+            class="text-decoration-none small text-muted"
+        >
+            ← Volver a créditos
+        </a>
+
+
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-2 mb-1">
+
+            <h2 class="fw-bold mb-0">
+                {{ credit.name }}
+            </h2>
+
+
+            {% if credit.status == "REVIEW" %}
+
+                <span class="badge bg-warning text-dark">
+                    En revisión
+                </span>
+
+            {% elif credit.status == "APPROVED" %}
+
+                <span class="badge bg-success">
+                    Aprobado
+                </span>
+
+            {% elif credit.status == "ACTIVE" %}
+
+                <span class="badge bg-primary">
+                    Activo
+                </span>
+
+            {% elif credit.status == "PAID" %}
+
+                <span class="badge bg-secondary">
+                    Pagado
+                </span>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="text-muted">
+
+            Socio:
+
+            <a
+                href="{% url 'clients_detail' credit.client.matricula %}"
+                class="text-decoration-none fw-semibold"
+            >
+                {{ credit.client.name }}
+            </a>
+
+            <span class="mx-1">·</span>
+
+            {{ credit.client.matricula }}
+
+        </div>
+
+    </div>
+
+
+    <!-- ACCESO DIRECTO AL SOCIO -->
+    <div>
+
+        <a
+            href="{% url 'clients_detail' credit.client.matricula %}"
+            class="btn btn-outline-primary"
+        >
+            Ver expediente del socio
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- INDICADORES -->
+<!-- ====================================================== -->
+
+<div class="row g-3 mb-4">
+
+
+    <!-- SOLICITADO -->
+    <div class="col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Monto solicitado
+                </small>
+
+                <h4 class="fw-bold mb-0 mt-1">
+                    ${{ credit.amount_requested|floatformat:2 }}
+                </h4>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- APROBADO -->
+    <div class="col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Monto aprobado
+                </small>
+
+                {% if credit.approved_amount %}
+
+                    <h4 class="fw-bold text-success mb-0 mt-1">
+                        ${{ credit.approved_amount|floatformat:2 }}
+                    </h4>
+
+                {% else %}
+
+                    <h5 class="text-muted mb-0 mt-1">
+                        Pendiente
+                    </h5>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- INTERÉS -->
+    <div class="col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Tasa de interés
+                </small>
+
+                {% if credit.interest_rate %}
+
+                    <h4 class="fw-bold mb-0 mt-1">
+                        {{ credit.interest_rate }}%
+                    </h4>
+
+                {% else %}
+
+                    <h5 class="text-muted mb-0 mt-1">
+                        Por definir
+                    </h5>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PLAZO -->
+    <div class="col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted d-block">
+                    Plazo
+                </small>
+
+                {% if credit.term_months %}
+
+                    <h4 class="fw-bold mb-0 mt-1">
+                        {{ credit.term_months }}
+
+                        <small class="fs-6 fw-normal">
+                            meses
+                        </small>
+                    </h4>
+
+                {% else %}
+
+                    <h5 class="text-muted mb-0 mt-1">
+                        Por definir
+                    </h5>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- PESTAÑAS -->
+<!-- ====================================================== -->
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-header bg-white border-bottom pt-3">
+
+        <ul
+            class="nav nav-tabs card-header-tabs"
+            id="creditTabs"
+            role="tablist"
+        >
+
+
+            <!-- RESUMEN -->
+            <li class="nav-item" role="presentation">
+
+                <button
+                    class="nav-link active"
+                    id="summary-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#summary"
+                    type="button"
+                    role="tab"
+                >
+                    Resumen
+                </button>
+
+            </li>
+
+
+            <!-- DOCUMENTOS -->
+            <li class="nav-item" role="presentation">
+
+                <button
+                    class="nav-link"
+                    id="documents-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#documents"
+                    type="button"
+                    role="tab"
+                >
+                    Documentos
+                </button>
+
+            </li>
+
+
+            <!-- ACCIONES -->
+            <li class="nav-item" role="presentation">
+
+                <button
+                    class="nav-link"
+                    id="actions-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#actions"
+                    type="button"
+                    role="tab"
+                >
+                    Historial de pagos
+                </button>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+
+
+    <div class="card-body p-4">
+
+        <div class="tab-content" id="creditTabsContent">
+
+
+            <!-- ================================================== -->
+            <!-- RESUMEN -->
+            <!-- ================================================== -->
+
+            <div
+                class="tab-pane fade show active"
+                id="summary"
+                role="tabpanel"
+            >
+
+                <div class="row g-4">
+
+
+                    <!-- SOCIO -->
+                    <div class="col-md-6">
+
+                        <small class="text-muted d-block">
+                            Socio
+                        </small>
+
+                        <a
+                            href="{% url 'clients_detail' credit.client.matricula %}"
+                            class="fw-semibold text-decoration-none"
+                        >
+                            {{ credit.client.name }}
+                        </a>
+
+                    </div>
+
+
+                    <!-- MATRÍCULA -->
+                    <div class="col-md-6">
+
+                        <small class="text-muted d-block">
+                            Matrícula
+                        </small>
+
+                        <a
+                            href="{% url 'clients_detail' credit.client.matricula %}"
+                            class="text-decoration-none"
+                        >
+                            {{ credit.client.matricula }}
+                        </a>
+
+                    </div>
+
+
+                    <!-- RFC -->
+                    <div class="col-md-6">
+
+                        <small class="text-muted d-block">
+                            RFC
+                        </small>
+
+                        <span>
+                            {{ credit.client.rfc }}
+                        </span>
+
+                    </div>
+
+
+                    <!-- ESTADO -->
+                    <div class="col-md-6">
+
+                        <small class="text-muted d-block">
+                            Estado
+                        </small>
+
+                        <span class="fw-semibold">
+                            {{ credit.get_status_display }}
+                        </span>
+
+                    </div>
+
+
+                    <!-- FRECUENCIA -->
+                    <div class="col-md-6">
+
+                        <small class="text-muted d-block">
+                            Frecuencia de pago
+                        </small>
+
+                        <span>
+                            {{ credit.get_payment_frequency_display }}
+                        </span>
+
+                    </div>
+
+
+                    <!-- EJECUTIVO -->
+                    <div class="col-md-6">
+
+                        <small class="text-muted d-block">
+                            Ejecutivo asignado
+                        </small>
+
+                        {% if credit.assigned_to %}
+
+                            <span>
+                                {{ credit.assigned_to.get_full_name|default:credit.assigned_to.username }}
+                            </span>
+
+                        {% else %}
+
+                            <span class="text-muted">
+                                Sin asignar
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- REGISTRO -->
+                    <div class="col-md-6">
+
+                        <small class="text-muted d-block">
+                            Fecha de registro
+                        </small>
+
+                        <span>
+                            {{ credit.created_at|date:"d/m/Y H:i" }}
+                        </span>
+
+                    </div>
+
+
+                    <!-- INICIO -->
+                    <div class="col-md-6">
+
+                        <small class="text-muted d-block">
+                            Fecha de inicio
+                        </small>
+
+                        {% if credit.start_date %}
+
+                            {{ credit.start_date|date:"d/m/Y" }}
+
+                        {% else %}
+
+                            <span class="text-muted">
+                                No definida
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- TERMINACIÓN -->
+                    <div class="col-md-6">
+
+                        <small class="text-muted d-block">
+                            Fecha de término
+                        </small>
+
+                        {% if credit.end_date %}
+
+                            {{ credit.end_date|date:"d/m/Y" }}
+
+                        {% else %}
+
+                            <span class="text-muted">
+                                No definida
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                {% if credit.description %}
+
+                    <hr class="my-4">
+
+                    <div>
+
+                        <small class="text-muted d-block mb-1">
+                            Destino / descripción
+                        </small>
+
+                        <p class="mb-0">
+                            {{ credit.description }}
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <!-- ================================================== -->
+            <!-- DOCUMENTOS -->
+            <!-- ================================================== -->
+
+            <div
+                class="tab-pane fade"
+                id="documents"
+                role="tabpanel"
+            >
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+
+                    <div>
+
+                        <h5 class="fw-bold mb-0">
+                            Expediente del crédito
+                        </h5>
+
+                        <small class="text-muted">
+                            Contratos, solicitudes, pagarés y otros documentos.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                {% for doc in credit.documents.all %}
+
+                    <div class="border rounded-3 p-3 mb-3">
+
+                        <div class="d-flex justify-content-between align-items-center gap-3">
+
+                            <div>
+
+                                <div class="fw-semibold">
+                                    {{ doc.get_document_type_display }}
+                                </div>
+
+                                <small class="text-muted">
+                                    {{ doc.uploaded_at|date:"d/m/Y H:i" }}
+                                </small>
+
+                                {% if doc.uploaded_by %}
+
+                                    <small class="text-muted d-block">
+                                        Subido por
+                                        {{ doc.uploaded_by.get_full_name|default:doc.uploaded_by.username }}
+                                    </small>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            {% if doc.file %}
+
+                                <a
+                                    href="{{ doc.file.url }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="btn btn-sm btn-outline-primary"
+                                >
+                                    Ver documento
+                                </a>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                {% empty %}
+
+                    <div class="text-center py-5">
+
+                        <h6 class="fw-semibold mb-1">
+                            Sin documentos
+                        </h6>
+
+                        <p class="text-muted small mb-0">
+                            No hay documentos asociados a este crédito.
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+
+            <!-- ================================================== -->
+            <!-- ACCIONES -->
+            <!-- ================================================== -->
+
+            <div
+                class="tab-pane fade"
+                id="actions"
+                role="tabpanel"
+            >
+
+                <div class="mb-4">
+
+                    <h5 class="fw-bold mb-1">
+                        Modificar crédito
+                    </h5>
+
+                    <p class="text-muted small mb-0">
+                        Actualiza las condiciones y el estado de esta operación.
+                    </p>
+
+                </div>
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <input
+                        type="hidden"
+                        name="action"
+                        value="update_credit"
+                    >
+
+
+                    <!-- INFORMACIÓN GENERAL -->
+                    <h6 class="fw-bold mb-3">
+                        Información general
+                    </h6>
+
+
+                    <div class="row g-3 mb-4">
+
+
+                        <!-- NOMBRE -->
+                        <div class="col-md-8">
+
+                            <label
+                                for="name"
+                                class="form-label"
+                            >
+                                Nombre del crédito
+                            </label>
+
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                class="form-control"
+                                value="{{ credit.name }}"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- ESTADO -->
+                        <div class="col-md-4">
+
+                            <label
+                                for="status"
+                                class="form-label"
+                            >
+                                Estado
+                            </label>
+
+                            <select
+                                id="status"
+                                name="status"
+                                class="form-select"
+                                required
+                            >
+
+                                <option
+                                    value="REVIEW"
+                                    {% if credit.status == "REVIEW" %}selected{% endif %}
+                                >
+                                    En revisión
+                                </option>
+
+                                <option
+                                    value="APPROVED"
+                                    {% if credit.status == "APPROVED" %}selected{% endif %}
+                                >
+                                    Aprobado
+                                </option>
+
+                                <option
+                                    value="ACTIVE"
+                                    {% if credit.status == "ACTIVE" %}selected{% endif %}
+                                >
+                                    Activo
+                                </option>
+
+                                <option
+                                    value="PAID"
+                                    {% if credit.status == "PAID" %}selected{% endif %}
+                                >
+                                    Pagado
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <hr class="my-4">
+
+
+                    <!-- CONDICIONES FINANCIERAS -->
+                    <h6 class="fw-bold mb-3">
+                        Condiciones financieras
+                    </h6>
+
+
+                    <div class="row g-3 mb-4">
+
+
+                        <!-- SOLICITADO -->
+                        <div class="col-md-6">
+
+                            <label
+                                for="amount_requested"
+                                class="form-label"
+                            >
+                                Monto solicitado
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    $
+                                </span>
+
+                                <input
+                                    type="number"
+                                    id="amount_requested"
+                                    name="amount_requested"
+                                    class="form-control"
+                                    min="0.01"
+                                    step="0.01"
+                                    value="{{ credit.amount_requested }}"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- APROBADO -->
+                        <div class="col-md-6">
+
+                            <label
+                                for="approved_amount"
+                                class="form-label"
+                            >
+                                Monto aprobado
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    $
+                                </span>
+
+                                <input
+                                    type="number"
+                                    id="approved_amount"
+                                    name="approved_amount"
+                                    class="form-control"
+                                    min="0"
+                                    step="0.01"
+                                    value="{{ credit.approved_amount|default_if_none:'' }}"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- INTERÉS -->
+                        <div class="col-md-4">
+
+                            <label
+                                for="interest_rate"
+                                class="form-label"
+                            >
+                                Tasa de interés anual
+                            </label>
+
+                            <div class="input-group">
+
+                                <input
+                                    type="number"
+                                    id="interest_rate"
+                                    name="interest_rate"
+                                    class="form-control"
+                                    min="0"
+                                    step="0.01"
+                                    value="{{ credit.interest_rate|default_if_none:'' }}"
+                                >
+
+                                <span class="input-group-text">
+                                    %
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PLAZO -->
+                        <div class="col-md-4">
+
+                            <label
+                                for="term_months"
+                                class="form-label"
+                            >
+                                Plazo
+                            </label>
+
+                            <div class="input-group">
+
+                                <input
+                                    type="number"
+                                    id="term_months"
+                                    name="term_months"
+                                    class="form-control"
+                                    min="1"
+                                    value="{{ credit.term_months|default_if_none:'' }}"
+                                >
+
+                                <span class="input-group-text">
+                                    meses
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- FRECUENCIA -->
+                        <div class="col-md-4">
+
+                            <label
+                                for="payment_frequency"
+                                class="form-label"
+                            >
+                                Frecuencia
+                            </label>
+
+                            <select
+                                id="payment_frequency"
+                                name="payment_frequency"
+                                class="form-select"
+                                required
+                            >
+
+                                <option
+                                    value="WEEKLY"
+                                    {% if credit.payment_frequency == "WEEKLY" %}selected{% endif %}
+                                >
+                                    Semanal
+                                </option>
+
+                                <option
+                                    value="BIWEEKLY"
+                                    {% if credit.payment_frequency == "BIWEEKLY" %}selected{% endif %}
+                                >
+                                    Quincenal
+                                </option>
+
+                                <option
+                                    value="MONTHLY"
+                                    {% if credit.payment_frequency == "MONTHLY" %}selected{% endif %}
+                                >
+                                    Mensual
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <hr class="my-4">
+
+
+                    <!-- ADMINISTRACIÓN -->
+                    <h6 class="fw-bold mb-3">
+                        Administración
+                    </h6>
+
+
+                    <div class="row g-3 mb-4">
+
+
+                        <!-- EJECUTIVO -->
+                        <div class="col-md-4">
+
+                            <label
+                                for="assigned_to"
+                                class="form-label"
+                            >
+                                Ejecutivo asignado
+                            </label>
+
+                            <select
+                                id="assigned_to"
+                                name="assigned_to"
+                                class="form-select"
+                            >
+
+                                <option value="">
+                                    Sin asignar
+                                </option>
+
+
+                                {% for user in sofom_users %}
+
+                                    <option
+                                        value="{{ user.id }}"
+                                        {% if credit.assigned_to_id == user.id %}selected{% endif %}
+                                    >
+                                        {{ user.get_full_name|default:user.username }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- INICIO -->
+                        <div class="col-md-4">
+
+                            <label
+                                for="start_date"
+                                class="form-label"
+                            >
+                                Fecha de inicio
+                            </label>
+
+                            <input
+                                type="date"
+                                id="start_date"
+                                name="start_date"
+                                class="form-control"
+                                value="{% if credit.start_date %}{{ credit.start_date|date:'Y-m-d' }}{% endif %}"
+                            >
+
+                        </div>
+
+
+                        <!-- TÉRMINO -->
+                        <div class="col-md-4">
+
+                            <label
+                                for="end_date"
+                                class="form-label"
+                            >
+                                Fecha de término
+                            </label>
+
+                            <input
+                                type="date"
+                                id="end_date"
+                                name="end_date"
+                                class="form-control"
+                                value="{% if credit.end_date %}{{ credit.end_date|date:'Y-m-d' }}{% endif %}"
+                            >
+
+                        </div>
+
+
+                        <!-- DESCRIPCIÓN -->
+                        <div class="col-12">
+
+                            <label
+                                for="description"
+                                class="form-label"
+                            >
+                                Destino / descripción
+                            </label>
+
+                            <textarea
+                                id="description"
+                                name="description"
+                                class="form-control"
+                                rows="4"
+                            >{{ credit.description }}</textarea>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- SOCIO FIJO -->
+                    <div class="alert alert-light border mb-4">
+
+                        <small class="text-muted d-block">
+                            Socio asociado
+                        </small>
+
+                        <div class="d-flex justify-content-between align-items-center gap-3">
+
+                            <div>
+
+                                <span class="fw-semibold">
+                                    {{ credit.client.name }}
+                                </span>
+
+                                <span class="text-muted">
+                                    · {{ credit.client.matricula }}
+                                </span>
+
+                            </div>
+
+
+                            <a
+                                href="{% url 'clients_detail' credit.client.matricula %}"
+                                class="btn btn-sm btn-outline-primary"
+                            >
+                                Ver socio
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- GUARDAR -->
+                    <div class="d-flex justify-content-end">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary px-4"
+                        >
+                            Guardar cambios
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

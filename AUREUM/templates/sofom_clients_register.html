@@ -1,0 +1,964 @@
+{% extends "base_clients.html" %}
+
+{% block title %}
+Solicitud de crédito | Monarca
+{% endblock %}
+
+{% block content %}
+
+<div class="mb-4">
+
+    <h2 class="fw-bold mb-1">
+        Solicitud de crédito
+    </h2>
+
+    <p class="text-muted mb-0">
+        Registra tus datos para integrar tu expediente y evaluar tu solicitud de financiamiento.
+    </p>
+
+</div>
+
+
+<form
+    method="POST"
+    enctype="multipart/form-data"
+    id="creditApplicationForm"
+    class="card border-0 shadow-sm"
+>
+
+    {% csrf_token %}
+
+    <div class="card-body p-4">
+
+
+        <!-- ================================================== -->
+        <!-- IDENTIFICACIÓN FISCAL -->
+        <!-- ================================================== -->
+
+        <div class="mb-4">
+
+            <h5 class="fw-bold mb-1">
+                Identificación del solicitante
+            </h5>
+
+            <p class="text-muted small mb-0">
+                El tipo de persona se determinará automáticamente a partir del RFC.
+            </p>
+
+        </div>
+
+
+        <div class="row g-3">
+
+            <div class="col-md-6">
+
+                <label
+                    for="rfc"
+                    class="form-label fw-semibold"
+                >
+                    RFC
+                </label>
+
+                <input
+                    type="text"
+                    id="rfc"
+                    name="rfc"
+                    class="form-control text-uppercase"
+                    minlength="12"
+                    maxlength="13"
+                    autocomplete="off"
+                    required
+                >
+
+            </div>
+
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-semibold">
+                    Tipo de persona
+                </label>
+
+                <div
+                    id="personTypeDisplay"
+                    class="form-control bg-light text-muted"
+                >
+                    Ingresa el RFC
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================== -->
+        <!-- PERSONA FÍSICA -->
+        <!-- ================================================== -->
+
+        <div
+            id="individualFields"
+            class="mt-4"
+            style="display: none;"
+        >
+
+            <hr class="my-4">
+
+            <h5 class="fw-bold mb-3">
+                Datos personales
+            </h5>
+
+
+            <div class="row g-3">
+
+                <div class="col-md-4">
+
+                    <label
+                        for="first_name"
+                        class="form-label fw-semibold"
+                    >
+                        Nombre(s)
+                    </label>
+
+                    <input
+                        type="text"
+                        id="first_name"
+                        name="first_name"
+                        class="form-control"
+                        autocomplete="given-name"
+                    >
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <label
+                        for="paternal_surname"
+                        class="form-label fw-semibold"
+                    >
+                        Apellido paterno
+                    </label>
+
+                    <input
+                        type="text"
+                        id="paternal_surname"
+                        name="paternal_surname"
+                        class="form-control"
+                    >
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <label
+                        for="maternal_surname"
+                        class="form-label fw-semibold"
+                    >
+                        Apellido materno
+                    </label>
+
+                    <input
+                        type="text"
+                        id="maternal_surname"
+                        name="maternal_surname"
+                        class="form-control"
+                    >
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label
+                        for="birth_date"
+                        class="form-label fw-semibold"
+                    >
+                        Fecha de nacimiento
+                    </label>
+
+                    <input
+                        type="date"
+                        id="birth_date"
+                        name="birth_date"
+                        class="form-control"
+                    >
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label
+                        for="curp"
+                        class="form-label fw-semibold"
+                    >
+                        CURP
+                    </label>
+
+                    <input
+                        type="text"
+                        id="curp"
+                        name="curp"
+                        class="form-control text-uppercase"
+                        minlength="18"
+                        maxlength="18"
+                    >
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label
+                        for="occupation"
+                        class="form-label fw-semibold"
+                    >
+                        Ocupación
+                    </label>
+
+                    <input
+                        type="text"
+                        id="occupation"
+                        name="occupation"
+                        class="form-control"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================== -->
+        <!-- PERSONA MORAL -->
+        <!-- ================================================== -->
+
+        <div
+            id="companyFields"
+            class="mt-4"
+            style="display: none;"
+        >
+
+            <hr class="my-4">
+
+            <h5 class="fw-bold mb-3">
+                Datos de la empresa
+            </h5>
+
+
+            <div class="row g-3">
+
+                <div class="col-md-8">
+
+                    <label
+                        for="business_name"
+                        class="form-label fw-semibold"
+                    >
+                        Razón social
+                    </label>
+
+                    <input
+                        type="text"
+                        id="business_name"
+                        name="business_name"
+                        class="form-control"
+                    >
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <label
+                        for="constitution_date"
+                        class="form-label fw-semibold"
+                    >
+                        Fecha de constitución
+                    </label>
+
+                    <input
+                        type="date"
+                        id="constitution_date"
+                        name="constitution_date"
+                        class="form-control"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================== -->
+        <!-- CONTACTO -->
+        <!-- ================================================== -->
+
+        <hr class="my-4">
+
+        <h5 class="fw-bold mb-3">
+            Datos de contacto
+        </h5>
+
+
+        <div class="row g-3">
+
+            <div class="col-md-6">
+
+                <label
+                    for="email"
+                    class="form-label fw-semibold"
+                >
+                    Correo electrónico
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-control"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="col-md-6">
+
+                <label
+                    for="phone"
+                    class="form-label fw-semibold"
+                >
+                    Teléfono
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    class="form-control"
+                    autocomplete="tel"
+                    required
+                >
+
+            </div>
+
+
+            <div class="col-md-6">
+
+                <label
+                    for="monthly_income"
+                    class="form-label fw-semibold"
+                >
+                    <span id="incomeLabel">
+                        Ingreso mensual
+                    </span>
+                </label>
+
+                <div class="input-group">
+
+                    <span class="input-group-text">
+                        $
+                    </span>
+
+                    <input
+                        type="number"
+                        id="monthly_income"
+                        name="monthly_income"
+                        class="form-control"
+                        min="0"
+                        step="0.01"
+                        placeholder="0.00"
+                    >
+
+                    <span class="input-group-text">
+                        MXN
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12">
+
+                <label
+                    for="address"
+                    class="form-label fw-semibold"
+                >
+                    Dirección
+                </label>
+
+                <textarea
+                    id="address"
+                    name="address"
+                    class="form-control"
+                    rows="3"
+                    required
+                ></textarea>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================== -->
+        <!-- DOCUMENTOS PERSONA FÍSICA -->
+        <!-- ================================================== -->
+
+        <div
+            id="individualDocuments"
+            style="display: none;"
+        >
+
+            <hr class="my-4">
+
+            <h5 class="fw-bold mb-1">
+                Documentos requeridos
+            </h5>
+
+            <p class="text-muted small mb-3">
+                Documentación necesaria para integrar el expediente de persona física.
+            </p>
+
+
+            <div class="row g-3">
+
+                <div class="col-md-6">
+
+                    <label
+                        for="ine_file"
+                        class="form-label fw-semibold"
+                    >
+                        Identificación oficial
+                    </label>
+
+                    <input
+                        type="file"
+                        id="ine_file"
+                        name="ine_file"
+                        class="form-control"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                    >
+
+                    <div class="form-text">
+                        INE, pasaporte u otra identificación oficial vigente.
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label
+                        for="individual_address_file"
+                        class="form-label fw-semibold"
+                    >
+                        Comprobante de domicilio
+                    </label>
+
+                    <input
+                        type="file"
+                        id="individual_address_file"
+                        name="individual_address_file"
+                        class="form-control"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                    >
+
+                    <div class="form-text">
+                        Documento reciente que permita validar el domicilio.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================== -->
+        <!-- DOCUMENTOS PERSONA MORAL -->
+        <!-- ================================================== -->
+
+        <div
+            id="companyDocuments"
+            style="display: none;"
+        >
+
+            <hr class="my-4">
+
+            <h5 class="fw-bold mb-1">
+                Documentos requeridos
+            </h5>
+
+            <p class="text-muted small mb-3">
+                Documentación necesaria para integrar el expediente de persona moral.
+            </p>
+
+
+            <div class="row g-3">
+
+                <div class="col-md-6">
+
+                    <label
+                        for="constitution_file"
+                        class="form-label fw-semibold"
+                    >
+                        Acta constitutiva
+                    </label>
+
+                    <input
+                        type="file"
+                        id="constitution_file"
+                        name="constitution_file"
+                        class="form-control"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                    >
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label
+                        for="tax_status_file"
+                        class="form-label fw-semibold"
+                    >
+                        Constancia de situación fiscal
+                    </label>
+
+                    <input
+                        type="file"
+                        id="tax_status_file"
+                        name="tax_status_file"
+                        class="form-control"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                    >
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label
+                        for="representative_id_file"
+                        class="form-label fw-semibold"
+                    >
+                        Identificación del representante legal
+                    </label>
+
+                    <input
+                        type="file"
+                        id="representative_id_file"
+                        name="representative_id_file"
+                        class="form-control"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                    >
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label
+                        for="company_address_file"
+                        class="form-label fw-semibold"
+                    >
+                        Comprobante de domicilio
+                    </label>
+
+                    <input
+                        type="file"
+                        id="company_address_file"
+                        name="company_address_file"
+                        class="form-control"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================== -->
+        <!-- SOLICITUD DE CRÉDITO -->
+        <!-- ================================================== -->
+
+        <hr class="my-4">
+
+        <div class="mb-3">
+
+            <h5 class="fw-bold mb-1">
+                Solicitud de crédito
+            </h5>
+
+            <p class="text-muted small mb-0">
+                Indica las condiciones generales del financiamiento solicitado.
+            </p>
+
+        </div>
+
+
+        <div class="row g-3">
+
+            <div class="col-md-6">
+
+                <label
+                    for="amount"
+                    class="form-label fw-semibold"
+                >
+                    Monto solicitado
+                </label>
+
+                <div class="input-group">
+
+                    <span class="input-group-text">
+                        $
+                    </span>
+
+                    <input
+                        type="number"
+                        id="amount"
+                        name="amount"
+                        class="form-control"
+                        min="0.01"
+                        step="0.01"
+                        placeholder="0.00"
+                        required
+                    >
+
+                    <span class="input-group-text">
+                        MXN
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6">
+
+                <label
+                    for="payment_frequency"
+                    class="form-label fw-semibold"
+                >
+                    Frecuencia de pago preferida
+                </label>
+
+                <select
+                    id="payment_frequency"
+                    name="payment_frequency"
+                    class="form-select"
+                    required
+                >
+
+                    <option value="" selected disabled>
+                        Selecciona una opción
+                    </option>
+
+                    <option value="WEEKLY">
+                        Semanal
+                    </option>
+
+                    <option value="BIWEEKLY">
+                        Quincenal
+                    </option>
+
+                    <option value="MONTHLY">
+                        Mensual
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="col-12">
+
+                <label
+                    for="credit_description"
+                    class="form-label fw-semibold"
+                >
+                    Destino del crédito
+                </label>
+
+                <textarea
+                    id="credit_description"
+                    name="credit_description"
+                    class="form-control"
+                    rows="3"
+                    placeholder="Describe brevemente para qué utilizarás el financiamiento."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================== -->
+        <!-- ENVÍO -->
+        <!-- ================================================== -->
+
+        <div class="alert alert-light border mt-4 mb-0">
+
+            <small class="text-muted">
+                Al enviar la solicitud, la información será integrada al expediente
+                correspondiente para su revisión.
+            </small>
+
+        </div>
+
+
+        <div class="d-flex justify-content-end mt-4">
+
+            <button
+                type="submit"
+                id="submitButton"
+                class="btn btn-primary px-4"
+                disabled
+            >
+                Enviar solicitud
+            </button>
+
+        </div>
+
+    </div>
+
+</form>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+    const rfcInput =
+        document.getElementById("rfc");
+
+    const personTypeDisplay =
+        document.getElementById("personTypeDisplay");
+
+    const individualFields =
+        document.getElementById("individualFields");
+
+    const companyFields =
+        document.getElementById("companyFields");
+
+    const individualDocuments =
+        document.getElementById("individualDocuments");
+
+    const companyDocuments =
+        document.getElementById("companyDocuments");
+
+    const submitButton =
+        document.getElementById("submitButton");
+
+    const incomeLabel =
+        document.getElementById("incomeLabel");
+
+
+    /* PERSONA FÍSICA */
+
+    const firstName =
+        document.getElementById("first_name");
+
+    const paternalSurname =
+        document.getElementById("paternal_surname");
+
+    const birthDate =
+        document.getElementById("birth_date");
+
+    const curp =
+        document.getElementById("curp");
+
+    const ineFile =
+        document.getElementById("ine_file");
+
+    const individualAddressFile =
+        document.getElementById("individual_address_file");
+
+
+    /* PERSONA MORAL */
+
+    const businessName =
+        document.getElementById("business_name");
+
+    const constitutionDate =
+        document.getElementById("constitution_date");
+
+    const constitutionFile =
+        document.getElementById("constitution_file");
+
+    const taxStatusFile =
+        document.getElementById("tax_status_file");
+
+    const representativeIdFile =
+        document.getElementById("representative_id_file");
+
+    const companyAddressFile =
+        document.getElementById("company_address_file");
+
+
+    function resetRequirements() {
+
+        firstName.required = false;
+        paternalSurname.required = false;
+        birthDate.required = false;
+        curp.required = false;
+
+        ineFile.required = false;
+        individualAddressFile.required = false;
+
+        businessName.required = false;
+        constitutionDate.required = false;
+
+        constitutionFile.required = false;
+        taxStatusFile.required = false;
+        representativeIdFile.required = false;
+        companyAddressFile.required = false;
+
+    }
+
+
+    function updatePersonType() {
+
+        const rfc = rfcInput.value
+            .trim()
+            .toUpperCase();
+
+        rfcInput.value = rfc;
+
+        resetRequirements();
+
+
+        if (rfc.length === 13) {
+
+            personTypeDisplay.textContent =
+                "Persona física";
+
+            personTypeDisplay.classList.remove(
+                "text-muted"
+            );
+
+            individualFields.style.display =
+                "block";
+
+            individualDocuments.style.display =
+                "block";
+
+            companyFields.style.display =
+                "none";
+
+            companyDocuments.style.display =
+                "none";
+
+
+            firstName.required = true;
+            paternalSurname.required = true;
+            birthDate.required = true;
+            curp.required = true;
+
+            ineFile.required = true;
+            individualAddressFile.required = true;
+
+
+            incomeLabel.textContent =
+                "Ingreso mensual";
+
+            submitButton.disabled = false;
+
+        }
+
+        else if (rfc.length === 12) {
+
+            personTypeDisplay.textContent =
+                "Persona moral";
+
+            personTypeDisplay.classList.remove(
+                "text-muted"
+            );
+
+            individualFields.style.display =
+                "none";
+
+            individualDocuments.style.display =
+                "none";
+
+            companyFields.style.display =
+                "block";
+
+            companyDocuments.style.display =
+                "block";
+
+
+            businessName.required = true;
+            constitutionDate.required = true;
+
+            constitutionFile.required = true;
+            taxStatusFile.required = true;
+            representativeIdFile.required = true;
+            companyAddressFile.required = true;
+
+
+            incomeLabel.textContent =
+                "Ingreso mensual declarado";
+
+            submitButton.disabled = false;
+
+        }
+
+        else {
+
+            personTypeDisplay.textContent =
+                "Ingresa un RFC válido";
+
+            personTypeDisplay.classList.add(
+                "text-muted"
+            );
+
+            individualFields.style.display =
+                "none";
+
+            individualDocuments.style.display =
+                "none";
+
+            companyFields.style.display =
+                "none";
+
+            companyDocuments.style.display =
+                "none";
+
+            incomeLabel.textContent =
+                "Ingreso mensual";
+
+            submitButton.disabled = true;
+
+        }
+
+    }
+
+
+    rfcInput.addEventListener(
+        "input",
+        updatePersonType
+    );
+
+
+    updatePersonType();
+
+</script>
+
+{% endblock %}
