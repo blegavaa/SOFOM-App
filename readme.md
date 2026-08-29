@@ -1,4 +1,4 @@
-# Domus | Backend
+# Aureum | Backend
 
 Backend system for a multi-tenant business management platform (SaaS).
 

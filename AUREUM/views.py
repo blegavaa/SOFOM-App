@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
-from django.db.models import Count, Sum
+from django.contrib.auth import authenticate, login, logout
+from django.db.models import Q, Sum
+from decimal import Decimal, InvalidOperation
 from django.db import transaction
+
 from .models import (
     SOFOM,
     User,
@@ -15,14 +17,6 @@ from .models import (
     SavingsAccount,
     SavingsTransaction,
 )
-
-from decimal import Decimal, InvalidOperation
-
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, render, redirect
-
-from .models import Credit, User
 
 def home(request):
     return render(request, "home.html")
@@ -70,8 +64,6 @@ def login_view(request):
         request,
         "login.html"
     )
-
-from django.db import transaction
 
 def sofom_register(request):
 
@@ -151,11 +143,6 @@ def dashboard(request):
     }
 
     return render(request, "dashboard.html", context)
-
-from django.db.models import Q, Sum
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
-
 
 @login_required
 def credits(request):
@@ -628,11 +615,6 @@ def clients_new(request):
         "clients_new.html"
     )
 
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-
-
 @login_required
 def settings(request):
 
@@ -763,9 +745,6 @@ def settings(request):
         request,
         "settings.html"
     )
-
-from django.contrib.auth import logout
-from django.shortcuts import redirect
 
 def logout_view(request):
 
